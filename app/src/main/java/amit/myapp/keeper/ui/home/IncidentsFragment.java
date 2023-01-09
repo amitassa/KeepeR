@@ -9,23 +9,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import amit.myapp.keeper.databinding.FragmentIncidentsBinding;
 
-import amit.myapp.keeper.databinding.FragmentHomeBinding;
+public class IncidentsFragment extends Fragment {
 
-public class HomeFragment extends Fragment {
-
-    private FragmentHomeBinding binding;
+    private FragmentIncidentsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        IncidentsViewModel incidentsViewModel =
+                new ViewModelProvider(this).get(IncidentsViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentIncidentsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        incidentsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
