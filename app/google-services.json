@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "761801811860",
+    "project_id": "keeper-53f0d",
+    "storage_bucket": "keeper-53f0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761801811860:android:46e9c24ad5b9c843281181",
+        "android_client_info": {
+          "package_name": "amit.myapp.keeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "761801811860-kl1hbo9k3nlb5uov63u8v07gqqo0gku5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6s9Bkk1PGCf57TqeNjV0FMarCAr8ryiI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761801811860-kl1hbo9k3nlb5uov63u8v07gqqo0gku5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
