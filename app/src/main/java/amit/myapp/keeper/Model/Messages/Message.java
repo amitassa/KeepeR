@@ -90,4 +90,12 @@ public class Message {
     public void setPublisherId(String publisherId) {
         this.publisherId = publisherId;
     }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }
