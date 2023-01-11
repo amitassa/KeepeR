@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import amit.myapp.keeper.databinding.FragmentNotificationsBinding;
+import amit.myapp.keeper.databinding.FragmentMessagesBinding;
 
 public class MessagesFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentMessagesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MessagesViewModel messagesViewModel =
                 new ViewModelProvider(this).get(MessagesViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentMessagesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        messagesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+//        final TextView textView = binding.textNotifications;
+//        messagesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

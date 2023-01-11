@@ -15,5 +15,5 @@
         android:id="@+id/navigation_messages"
         android:name="amit.myapp.keeper.ui.messages.MessagesFragment"
         android:label="@string/title_Messages"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_messages" />
 </navigation>

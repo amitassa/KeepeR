@@ -16,11 +16,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import amit.myapp.keeper.Model.Messages.Message;
+import amit.myapp.keeper.Model.Messages.MessagesModel;
+
 
 public class FirebaseModel {
     FirebaseFirestore db;
 
-    FirebaseModel(){
+    public FirebaseModel(){
         db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(false)
@@ -28,11 +31,30 @@ public class FirebaseModel {
         db.setFirestoreSettings(settings);
     }
 
-    public void getAllMessages(){
-
+    public void getAllMessages(MessagesModel.GetAllMessagesListener callback){
+        db.collection(Message.COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<Message> messageList = new LinkedList<>();
+                if (task.isSuccessful()){
+                    QuerySnapshot jsonsList = task.getResult();
+                    for (DocumentSnapshot json: jsonsList){
+                        Message message = Message.fromJson(json.getData());
+                        messageList.add(message);
+                    }
+                }
+                callback.onComplete(messageList);
+            }
+        });
     }
 
-    public void addMessage(){
-
+    public void addMessage(Message message, MessagesModel.AddMessageListener listener){
+        db.collection(Message.COLLECTION).document().set(message.toJson()).
+                addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        listener.onComplete();
+                    }
+                });
     }
 }
