@@ -1,4 +1,4 @@
-package amit.myapp.keeper.ui.notifications;
+package amit.myapp.keeper.ui.messages;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,20 +12,20 @@ import androidx.lifecycle.ViewModelProvider;
 
 import amit.myapp.keeper.databinding.FragmentNotificationsBinding;
 
-public class NotificationsFragment extends Fragment {
+public class MessagesFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+        MessagesViewModel messagesViewModel =
+                new ViewModelProvider(this).get(MessagesViewModel.class);
 
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        messagesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
