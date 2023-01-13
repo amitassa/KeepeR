@@ -39,9 +39,7 @@ public class MessagesFragment extends Fragment {
 
         adapter.setOnItemClickListener(new MessagesRecyclerAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos) {
-                Log.d("hi", "onItemClick: hi");
-            }
+            public void onItemClick(int pos) {}
         });
 
         //binding.messagesFragAddBtn.setOnClickListener(Navigation.);

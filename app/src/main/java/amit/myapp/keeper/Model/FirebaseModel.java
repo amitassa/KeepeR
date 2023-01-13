@@ -1,4 +1,6 @@
 package amit.myapp.keeper.Model;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,9 +54,6 @@ public class FirebaseModel {
         db.collection(Message.COLLECTION).document().set(message.toJson()).
                 addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        listener.onComplete();
-                    }
-                });
+                    public void onComplete(@NonNull Task<Void> task) {listener.onComplete();}});
     }
 }

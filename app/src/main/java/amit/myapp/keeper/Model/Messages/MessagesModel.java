@@ -11,7 +11,9 @@ public class MessagesModel {
     public static MessagesModel instance(){
         return _instance;
     }
-    private MessagesModel(){}
+    private MessagesModel(){
+
+    }
 
     public interface GetAllMessagesListener{
         void onComplete(List<Message> data);
