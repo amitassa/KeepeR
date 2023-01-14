@@ -37,6 +37,7 @@ public class Message {
 
     public Message(String content, String title, String publisherName, String publisherId, String date){
         this.content = content; this.title = title; this.publisherName = publisherName; this.publisherId = publisherId;
+        this.date = date;
     }
 
     public static Message fromJson(Map<String,Object> json){
@@ -44,8 +45,9 @@ public class Message {
         String title = (String)json.get(TITLE);
         String publisherId = (String) json.get(PUBLISHER_ID);
         String publisherName = (String) json.get(PUBLISHER_NAME);
+        String date = (String) json.get(DATE);
 
-        Message message = new Message(content, title, publisherName, publisherId);
+        Message message = new Message(content, title, publisherName, publisherId, date);
         return message;
     }
 
@@ -55,6 +57,7 @@ public class Message {
         json.put(TITLE, getTitle());
         json.put(PUBLISHER_ID, getPublisherId());
         json.put(PUBLISHER_NAME, getPublisherName());
+        json.put(DATE, getDate());
         return json;
     }
 
@@ -92,7 +95,7 @@ public class Message {
     }
 
     public String getDate() {
-        return date;
+        return this.date;
     }
 
     public void setDate(String date) {

@@ -58,7 +58,7 @@ public class AddMessageFragment extends Fragment {
     private void publishMessage(View view){
         String title = binding.addMessageFragmentMessageTitle.getText().toString();
         String content = binding.addMessageFragmentMessageContent.getText().toString();
-        Message message = new Message(content, title, "Amit", "14.01.2023");
+        Message message = new Message(content, title, "Amit", "123");
         MessagesModel.instance().addMessage(message, ()-> {Navigation.findNavController(view).popBackStack();});
     }
 }
