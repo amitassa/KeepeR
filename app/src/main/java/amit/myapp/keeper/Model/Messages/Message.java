@@ -23,6 +23,7 @@ public class Message {
     private String publisherName = "";
     private String publisherId = "";
     private String date = "";
+    private String id = "";
 
     public Message() {}
 
@@ -35,19 +36,19 @@ public class Message {
         this.date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
     }
 
-    public Message(String content, String title, String publisherName, String publisherId, String date){
+    public Message(String content, String title, String publisherName, String publisherId, String date, String id){
         this.content = content; this.title = title; this.publisherName = publisherName; this.publisherId = publisherId;
-        this.date = date;
+        this.date = date; this.id = id;
     }
 
-    public static Message fromJson(Map<String,Object> json){
+    public static Message fromJson(Map<String,Object> json, String id){
         String content = (String)json.get(CONTENT);
         String title = (String)json.get(TITLE);
         String publisherId = (String) json.get(PUBLISHER_ID);
         String publisherName = (String) json.get(PUBLISHER_NAME);
         String date = (String) json.get(DATE);
 
-        Message message = new Message(content, title, publisherName, publisherId, date);
+        Message message = new Message(content, title, publisherName, publisherId, date, id);
         return message;
     }
 
@@ -100,5 +101,13 @@ public class Message {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

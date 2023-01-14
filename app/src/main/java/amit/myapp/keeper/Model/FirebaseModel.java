@@ -41,7 +41,8 @@ public class FirebaseModel {
                 if (task.isSuccessful()){
                     QuerySnapshot jsonsList = task.getResult();
                     for (DocumentSnapshot json: jsonsList){
-                        Message message = Message.fromJson(json.getData());
+                        String id = json.getId();
+                        Message message = Message.fromJson(json.getData(), id);
                         messageList.add(message);
                     }
                 }
@@ -55,5 +56,15 @@ public class FirebaseModel {
                 addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {listener.onComplete();}});
+    }
+
+    public void deleteMessage(Message message, MessagesModel.DeleteMessageListener listener){
+        db.collection(Message.COLLECTION).document(message.getId()).delete().
+                addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        listener.onComplete();
+                    }
+                });
     }
 }

@@ -19,7 +19,7 @@ public class MessagesModel {
         void onComplete(List<Message> data);
     }
 
-    public void getAllStudents(GetAllMessagesListener callback) {
+    public void getAllMessages(GetAllMessagesListener callback) {
         firebaseModel.getAllMessages(callback);
     }
 
@@ -29,5 +29,13 @@ public class MessagesModel {
 
     public void addMessage(Message message, AddMessageListener listener){
         firebaseModel.addMessage(message, listener);
+    }
+
+    public interface DeleteMessageListener{
+        void onComplete();
+    }
+
+    public void deleteMessage(Message message, DeleteMessageListener listener){
+        firebaseModel.deleteMessage(message, listener);
     }
 }

@@ -33,7 +33,7 @@ public class MessagesFragment extends Fragment {
 
         binding.messagesRecyclerView.setHasFixedSize(true);
         binding.messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messageList);
+        adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messageList, getActivity());
         binding.messagesRecyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new MessagesRecyclerAdapter.OnItemClickListener() {
@@ -63,9 +63,9 @@ public class MessagesFragment extends Fragment {
         reloadData();
     }
 
-    void reloadData(){
+    public void reloadData(){
         //binding.progressBar.setVisibility(View.VISIBLE);
-        MessagesModel.instance().getAllStudents((list)->{
+        MessagesModel.instance().getAllMessages((list)->{
             messageList = list;
             adapter.setData(messageList);
             //binding.progressBar.setVisibility(View.GONE);
