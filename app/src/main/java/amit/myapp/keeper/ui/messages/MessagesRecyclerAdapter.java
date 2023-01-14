@@ -24,10 +24,11 @@ import amit.myapp.keeper.R;
 
 class MessageViewHolder extends RecyclerView.ViewHolder{
     TextView titleTv; TextView contentTv; TextView dateTv; TextView publisherTv; ImageButton deleteBtn; ImageButton editBtn;
-    List<Message> messageList; FragmentActivity fa;
+    List<Message> messageList; MessagesModel.DeleteMessageListener deleteMessageListener;
 
 
-    public MessageViewHolder(@NonNull View itemView, MessagesRecyclerAdapter.OnItemClickListener listener, List<Message> list, FragmentActivity fa) {
+    public MessageViewHolder(@NonNull View itemView, MessagesRecyclerAdapter.OnItemClickListener listener, List<Message> list,
+                             MessagesModel.DeleteMessageListener deleteMessageListener) {
         super(itemView);
 
         this.messageList = list;
@@ -37,22 +38,14 @@ class MessageViewHolder extends RecyclerView.ViewHolder{
         dateTv = itemView.findViewById(R.id.messagelistrow_date);
         deleteBtn = itemView.findViewById(R.id.messagelistrow_delete_btn);
         editBtn = itemView.findViewById(R.id.messagelistrow_edit_btn);
-        this.fa = fa;
+        this.deleteMessageListener = deleteMessageListener;
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int pos = getAdapterPosition();
                 MessagesModel.instance().deleteMessage(messageList.get(pos), () ->{
-//                    FragmentManager fragManager = fa.getSupportFragmentManager();
-//                    Fragment currentFragment = fragManager.findFragmentById(R.id.messagesFragment);
-//
-//                    if (true) {
-//                        FragmentTransaction fragTransaction = fragManager.beginTransaction();
-//                        fragTransaction.detach(currentFragment);
-//                        fragTransaction.attach(currentFragment);
-//                        fragTransaction.commit();
-//                    }
+                    deleteMessageListener.onComplete();
                 });
             }
         });
@@ -88,19 +81,19 @@ public class MessagesRecyclerAdapter extends RecyclerView.Adapter<MessageViewHol
         void onItemClick(int pos);
     }
     OnItemClickListener listener;
+    MessagesModel.DeleteMessageListener deleteMessageListener;
     LayoutInflater inflater;
     List<Message> messageList = new LinkedList<Message>();
-    FragmentActivity fa;
 
     public void setData(List<Message> list){
         this.messageList = list;
         notifyDataSetChanged();
     }
 
-    public MessagesRecyclerAdapter(LayoutInflater inflater, List<Message> list, FragmentActivity fa){
+    public MessagesRecyclerAdapter(LayoutInflater inflater, List<Message> list, MessagesModel.DeleteMessageListener listener){
         this.inflater = inflater;
         this.messageList = list;
-        this.fa = fa;
+        deleteMessageListener = listener;
     }
 
     void setOnItemClickListener(OnItemClickListener listener){this.listener = listener;}
@@ -109,7 +102,7 @@ public class MessagesRecyclerAdapter extends RecyclerView.Adapter<MessageViewHol
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.message_list_row, parent, false);
-        return new MessageViewHolder(view, listener, messageList, fa);
+        return new MessageViewHolder(view, listener, messageList, deleteMessageListener);
     }
 
     @Override

@@ -33,7 +33,8 @@ public class MessagesFragment extends Fragment {
 
         binding.messagesRecyclerView.setHasFixedSize(true);
         binding.messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messageList, getActivity());
+        // sent the adapter the delete message callbacks
+        adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messageList, ()->{reloadData();});
         binding.messagesRecyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new MessagesRecyclerAdapter.OnItemClickListener() {
