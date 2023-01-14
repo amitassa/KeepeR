@@ -43,6 +43,9 @@ public class MessagesFragment extends Fragment {
         });
 
         //binding.messagesFragAddBtn.setOnClickListener(Navigation.);
+//        Message message = new Message("תוכן", "כותרת", "עמית", "13/01/2023");
+//        MessagesModel.instance().addMessage(message, ()->{
+//        });
         return root;
     }
 

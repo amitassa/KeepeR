@@ -3,71 +3,89 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#0FFFFFFF">
 
-    <TextView
-        android:id="@+id/messagelistrow_title"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/messagelistrow_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:text="Title"
-        android:textColor="#2F8B9E"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/messagelistrow_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        android:text="Content"
-        android:textColor="#2F8B9E"
+        android:background="#E3E0E0"
+        android:backgroundTint="#F6F3F3"
+        app:circularflow_radiusInDP="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/messagelistrow_title"
-        app:layout_constraintTop_toBottomOf="@+id/messagelistrow_publisher" />
-
-    <TextView
-        android:id="@+id/messagelistrow_publisher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:text="Publisher Name"
-        android:textColor="#2F8B9E"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="@+id/messagelistrow_title"
-        app:layout_constraintTop_toBottomOf="@+id/messagelistrow_title" />
-
-    <TextView
-        android:id="@+id/messagelistrow_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="Date"
-        android:textColor="#2F8B9E"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toStartOf="@id/messagelistrow_publisher"
-        app:layout_constraintTop_toTopOf="@+id/messagelistrow_publisher" />
-
-    <ImageButton
-        android:id="@+id/messagelistrow_delete_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/messagelistrow_edit_btn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/trash_icon" />
-
-    <ImageButton
-        android:id="@+id/messagelistrow_edit_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messagelistrow_delete_btn"
-        app:srcCompat="@drawable/edit_icon" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/messagelistrow_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:text="Title"
+            android:textColor="#2F8B9E"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/messagelistrow_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="Content"
+            android:textColor="#2F8B9E"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/messagelistrow_title"
+            app:layout_constraintTop_toBottomOf="@+id/messagelistrow_publisher" />
+
+        <TextView
+            android:id="@+id/messagelistrow_publisher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text="Publisher Name"
+            android:textColor="#2F8B9E"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/messagelistrow_title"
+            app:layout_constraintTop_toBottomOf="@+id/messagelistrow_title" />
+
+        <TextView
+            android:id="@+id/messagelistrow_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="Date"
+            android:textColor="#2F8B9E"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@id/messagelistrow_publisher"
+            app:layout_constraintTop_toTopOf="@+id/messagelistrow_publisher" />
+
+        <ImageButton
+            android:id="@+id/messagelistrow_delete_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@+id/messagelistrow_edit_btn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/trash_icon" />
+
+        <ImageButton
+            android:id="@+id/messagelistrow_edit_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/messagelistrow_delete_btn"
+            app:srcCompat="@drawable/edit_icon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

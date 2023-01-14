@@ -21,4 +21,9 @@
         android:name="amit.myapp.keeper.ui.messages.AddMessageFragment"
         android:label="fragment_add_message"
         tools:layout="@layout/fragment_add_message" />
+    <fragment
+        android:id="@+id/editMessageFragment"
+        android:name="amit.myapp.keeper.EditMessageFragment"
+        android:label="fragment_edit_message"
+        tools:layout="@layout/fragment_edit_message" />
 </navigation>
