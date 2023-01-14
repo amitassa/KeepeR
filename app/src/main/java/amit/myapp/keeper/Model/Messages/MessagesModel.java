@@ -38,4 +38,12 @@ public class MessagesModel {
     public void deleteMessage(Message message, DeleteMessageListener listener){
         firebaseModel.deleteMessage(message, listener);
     }
+
+    public interface EditMessageListener{
+        void onComplete();
+    }
+
+    public void editMessage(Message message, EditMessageListener listener){
+        firebaseModel.editMessage(message, listener);
+    }
 }

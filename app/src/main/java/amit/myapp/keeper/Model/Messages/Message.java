@@ -1,5 +1,6 @@
 package amit.myapp.keeper.Model.Messages;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.Map;
 import amit.myapp.keeper.Model.Users.AppUser;
 
 
-public class Message {
+public class Message implements Serializable {
 
     public static final String COLLECTION = "messages";
     static final String TITLE = "title";

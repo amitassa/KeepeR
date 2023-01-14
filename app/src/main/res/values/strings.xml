@@ -3,6 +3,7 @@
     <string name="title_home">תקלות</string>
     <string name="title_Messages">הודעות</string>
     <string name="add_message_title">הודעה חדשה</string>
+    <string name="edit_message_title">ערוך הודעה</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

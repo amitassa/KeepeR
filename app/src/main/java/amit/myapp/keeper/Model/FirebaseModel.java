@@ -67,4 +67,14 @@ public class FirebaseModel {
                     }
                 });
     }
+
+    public void editMessage(Message message, MessagesModel.EditMessageListener listener){
+        db.collection(Message.COLLECTION).document(message.getId()).set(message.toJson())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        listener.onComplete();
+                    }
+                });
+    }
 }

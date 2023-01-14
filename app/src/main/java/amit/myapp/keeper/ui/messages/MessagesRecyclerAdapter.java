@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -24,7 +26,7 @@ import amit.myapp.keeper.R;
 
 class MessageViewHolder extends RecyclerView.ViewHolder{
     TextView titleTv; TextView contentTv; TextView dateTv; TextView publisherTv; ImageButton deleteBtn; ImageButton editBtn;
-    List<Message> messageList; MessagesModel.DeleteMessageListener deleteMessageListener;
+    List<Message> messageList; MessagesModel.DeleteMessageListener deleteMessageListener; MessagesModel.EditMessageListener editMessageListener;
 
 
     public MessageViewHolder(@NonNull View itemView, MessagesRecyclerAdapter.OnItemClickListener listener, List<Message> list,
@@ -53,7 +55,10 @@ class MessageViewHolder extends RecyclerView.ViewHolder{
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                int pos = getAdapterPosition();
+                Message message = messageList.get(pos);
+                NavDirections action = MessagesFragmentDirections.actionMessagesFragmentToEditMessageFragment(message);
+                Navigation.findNavController(itemView).navigate(action);
             }
         });
 
@@ -82,6 +87,7 @@ public class MessagesRecyclerAdapter extends RecyclerView.Adapter<MessageViewHol
     }
     OnItemClickListener listener;
     MessagesModel.DeleteMessageListener deleteMessageListener;
+    MessagesModel.EditMessageListener editMessageListener;
     LayoutInflater inflater;
     List<Message> messageList = new LinkedList<Message>();
 
@@ -90,10 +96,11 @@ public class MessagesRecyclerAdapter extends RecyclerView.Adapter<MessageViewHol
         notifyDataSetChanged();
     }
 
-    public MessagesRecyclerAdapter(LayoutInflater inflater, List<Message> list, MessagesModel.DeleteMessageListener listener){
+    public MessagesRecyclerAdapter(LayoutInflater inflater, List<Message> list,
+                                   MessagesModel.DeleteMessageListener deleteListener){
         this.inflater = inflater;
         this.messageList = list;
-        deleteMessageListener = listener;
+        this.deleteMessageListener = deleteListener;
     }
 
     void setOnItemClickListener(OnItemClickListener listener){this.listener = listener;}
