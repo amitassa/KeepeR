@@ -41,6 +41,9 @@ public class MessagesFragment extends Fragment {
             public void onItemClick(int pos) {}
         });
 
+        NavDirections action = MessagesFragmentDirections.actionGlobalAddMessageFragment();
+        binding.getRoot().findViewById(R.id.messages_bar_add_btn).setOnClickListener(Navigation.createNavigateOnClickListener(action));
+
         //binding.messagesFragAddBtn.setOnClickListener(Navigation.);
 //        Message message = new Message("תוכן", "כותרת", "עמית", "13/01/2023");
 //        MessagesModel.instance().addMessage(message, ()->{

@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController);//, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        NavDirections action = MessagesFragmentDirections.actionGlobalAddMessageFragment();
-        binding.getRoot().findViewById(R.id.messages_bar_add_btn).setOnClickListener(Navigation.createNavigateOnClickListener(action));
+
     }
 
 }
