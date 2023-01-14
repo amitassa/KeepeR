@@ -1,15 +1,13 @@
 package amit.myapp.keeper.ui.messages;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -18,6 +16,7 @@ import java.util.List;
 
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
+import amit.myapp.keeper.R;
 import amit.myapp.keeper.databinding.FragmentMessagesBinding;
 
 public class MessagesFragment extends Fragment {
@@ -46,6 +45,7 @@ public class MessagesFragment extends Fragment {
 //        Message message = new Message("תוכן", "כותרת", "עמית", "13/01/2023");
 //        MessagesModel.instance().addMessage(message, ()->{
 //        });
+
         return root;
     }
 

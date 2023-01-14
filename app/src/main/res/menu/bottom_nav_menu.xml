@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#2F8B9E">
 
     <item
         android:id="@+id/incidentsFragment"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:title="Incidents" />
 
     <item
         android:id="@+id/messagesFragment"
