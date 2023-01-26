@@ -7,12 +7,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import amit.myapp.keeper.R;
+import amit.myapp.keeper.databinding.FragmentLoginBinding;
+import amit.myapp.keeper.databinding.FragmentSignupBinding;
 
 public class SignupFragment extends Fragment {
 
-
+    FragmentSignupBinding binding;
+    FirebaseAuth mAuth;
     public SignupFragment() {
         // Required empty public constructor
     }
@@ -20,7 +26,23 @@ public class SignupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_signup, container, false);
+
+        binding = FragmentSignupBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        mAuth = FirebaseAuth.getInstance();
+
+        binding.signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createUser();
+            }
+        });
+
+        return root;
+    }
+
+    private void createUser(){
+
     }
 }
