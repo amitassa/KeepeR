@@ -34,6 +34,9 @@ public class LoginFragment extends Fragment {
         View root = binding.getRoot();
         mAuth = FirebaseAuth.getInstance();
 
+        NavDirections registerAction = LoginFragmentDirections.actionLoginFragmentToSignupFragment();
+        binding.loginSignupBtn.setOnClickListener(Navigation.createNavigateOnClickListener(registerAction));
+
         return root;
     }
 

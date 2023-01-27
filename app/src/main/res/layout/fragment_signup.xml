@@ -21,31 +21,32 @@
         android:imeActionLabel="@string/action_sign_up"
         android:imeOptions="actionDone"
         android:selectAllOnFocus="true"
-        app:layout_constraintBottom_toTopOf="@id/signup_username_et"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/signup_username_et"
+        android:id="@+id/signup_id_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
-        android:hint="@string/prompt_email"
-        android:inputType="textEmailAddress"
+        android:hint="ID"
+        android:imeActionLabel="@string/action_sign_up"
+        android:imeOptions="actionDone"
         android:selectAllOnFocus="true"
+        app:layout_constraintBottom_toTopOf="@id/signup_email_et"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signup_fullname_et" />
+        app:layout_constraintTop_toBottomOf="@+id/signup_fullname_et" />
 
     <EditText
         android:id="@+id/signup_password_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_up"
@@ -54,7 +55,21 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_username_et" />
+        app:layout_constraintTop_toBottomOf="@+id/signup_email_et" />
+
+    <EditText
+        android:id="@+id/signup_email_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/prompt_email"
+        android:inputType="textEmailAddress"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signup_id_et" />
 
     <Button
         android:id="@+id/signup_btn"
@@ -64,7 +79,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="64dp"
         android:enabled="false"
-        android:text="@string/action_sign_in"
+        android:text="@string/action_sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/signup_password_et"
         app:layout_constraintStart_toStartOf="@+id/signup_password_et"
@@ -99,7 +114,7 @@
         app:layout_constraintStart_toStartOf="@id/signup_fullname_et" />
 
     <TextView
-        android:id="@+id/signup_change_to_login_btn"
+        android:id="@+id/signup_change_to_login_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -113,6 +128,6 @@
         android:layout_height="wrap_content"
         android:text="@string/action_sign_in"
         app:layout_constraintEnd_toEndOf="@+id/signup_btn"
-        app:layout_constraintStart_toEndOf="@+id/signup_change_to_login_btn"
-        app:layout_constraintTop_toTopOf="@+id/signup_change_to_login_btn" />
+        app:layout_constraintStart_toEndOf="@+id/signup_change_to_login_tv"
+        app:layout_constraintTop_toTopOf="@+id/signup_change_to_login_tv" />
 </androidx.constraintlayout.widget.ConstraintLayout>

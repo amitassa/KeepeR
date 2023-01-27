@@ -3,6 +3,8 @@ package amit.myapp.keeper.ui.authentication;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,8 @@ public class SignupFragment extends Fragment {
                 createUser();
             }
         });
+        NavDirections loginAction = SignupFragmentDirections.actionSignupFragmentToLoginFragment();
+        binding.loginSignupBtn.setOnClickListener(Navigation.createNavigateOnClickListener(loginAction));
 
         return root;
     }
