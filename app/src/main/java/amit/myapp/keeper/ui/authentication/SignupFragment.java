@@ -52,6 +52,8 @@ public class SignupFragment extends Fragment {
         String ID = binding.signupIdEt.getText().toString();
         String fullName = binding.signupFullnameEt.getText().toString();
         String password = binding.signupPasswordEt.getText().toString();
-        appUserModel.registerUser(email, password, fullName, ID, 0, ()-> {/*callback*/});
+        binding.signupLoading.setVisibility(View.VISIBLE);
+        appUserModel.registerUser(email, password, fullName, ID, 0, ()-> {Navigation.findNavController(binding.getRoot()).popBackStack();
+        binding.signupLoading.setVisibility(View.GONE);});
     }
 }

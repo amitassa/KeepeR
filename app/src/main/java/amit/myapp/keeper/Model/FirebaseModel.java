@@ -95,35 +95,36 @@ public class FirebaseModel {
     public Boolean registerUser(String email, String password, String fullName, String ID, int role, AppUserModel.RegisterUserListener listener){
         Log.d("d", "registerUser: firebase model ");
         final Boolean[] isSuccessful = {false};
-//        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<AuthResult> task) {
-//                if (task.isSuccessful()){
-//                    AppUser user = new AppUser(fullName, ID, email, role);
-//                    appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).setValue(user).
-//                            addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    Log.d("D", "onComplete: user added" + user.getFullName());
-//                                    listener.onComplete();
-//                                }
-//                            });
-//                    isSuccessful[0] = true;
-//                };
-//            }
-//        });
-
-        mAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onSuccess(AuthResult authResult) {
-                Log.d("model", "onSuccess: succeeded");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("model", "onFailure: failed");
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    AppUser user = new AppUser(fullName, ID, email, role);
+                    appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).setValue(user).
+                            addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Log.d("D", "onComplete: user added" + user.getFullName());
+                                    listener.onComplete();
+                                }
+                            });
+                    isSuccessful[0] = true;
+                };
             }
         });
+
+//        mAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+//            @Override
+//            public void onSuccess(AuthResult authResult) {
+//                Log.d("model", "onSuccess: succeeded");
+//                listener.onComplete();
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d("model", "onFailure: failed");
+//            }
+//        });
 
         return isSuccessful[0];
     }
