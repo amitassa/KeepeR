@@ -71,6 +71,7 @@ public class MessagesFragment extends Fragment {
     }
 
     public void reloadData(){
+        // ToDo: progress bar
         //binding.progressBar.setVisibility(View.VISIBLE);
         MessagesModel.instance().getAllMessages((list)->{
             messageList = list;
