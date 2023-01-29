@@ -7,6 +7,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -20,10 +24,16 @@ import java.util.Map;
 
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
+import amit.myapp.keeper.Model.Roles.Role;
+import amit.myapp.keeper.Model.Users.AppUser;
+import amit.myapp.keeper.Model.Users.AppUserModel;
 
 
 public class FirebaseModel {
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference appUserDatabaseReference;
 
     public FirebaseModel(){
         db = FirebaseFirestore.getInstance();
@@ -31,6 +41,10 @@ public class FirebaseModel {
                 .setPersistenceEnabled(false)
                 .build();
         db.setFirestoreSettings(settings);
+
+        mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        appUserDatabaseReference = firebaseDatabase.getReference("AppUser");
     }
 
     public void getAllMessages(MessagesModel.GetAllMessagesListener callback){
@@ -77,4 +91,42 @@ public class FirebaseModel {
                     }
                 });
     }
+
+    public Boolean registerUser(String email, String password, String fullName, String ID, int role, AppUserModel.RegisterUserListener listener){
+        Log.d("d", "registerUser: firebase model ");
+        final Boolean[] isSuccessful = {false};
+//        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if (task.isSuccessful()){
+//                    AppUser user = new AppUser(fullName, ID, email, role);
+//                    appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).setValue(user).
+//                            addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//                                    Log.d("D", "onComplete: user added" + user.getFullName());
+//                                    listener.onComplete();
+//                                }
+//                            });
+//                    isSuccessful[0] = true;
+//                };
+//            }
+//        });
+
+        mAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                Log.d("model", "onSuccess: succeeded");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("model", "onFailure: failed");
+            }
+        });
+
+        return isSuccessful[0];
+    }
+
+
 }

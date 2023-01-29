@@ -11,6 +11,8 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,6 +43,10 @@ public class MessagesFragment extends Fragment {
             @Override
             public void onItemClick(int pos) {}
         });
+        binding.messagesfragSignout.setOnClickListener((view -> {
+            FirebaseAuth.getInstance().signOut();
+            reloadData();
+        }));
 
         NavDirections action = MessagesFragmentDirections.actionGlobalAddMessageFragment();
         binding.getRoot().findViewById(R.id.messages_bar_add_btn).setOnClickListener(Navigation.createNavigateOnClickListener(action));
@@ -70,6 +76,9 @@ public class MessagesFragment extends Fragment {
             messageList = list;
             adapter.setData(messageList);
             //binding.progressBar.setVisibility(View.GONE);
+            if(FirebaseAuth.getInstance().getCurrentUser() == null){
+                Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalSignupFragment());
+            }
         });
     }
 }
