@@ -76,8 +76,9 @@ public class MessagesFragment extends Fragment {
             messageList = list;
             adapter.setData(messageList);
             //binding.progressBar.setVisibility(View.GONE);
+            // ToDo: Get it from appuser model
             if(FirebaseAuth.getInstance().getCurrentUser() == null){
-                Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalSignupFragment());
+                Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalLoginFragment());
             }
         });
     }

@@ -24,6 +24,14 @@ public class AppUserModel {
         return firebaseModel.registerUser(email, password, fullName, ID, role, listener);
     }
 
+    public interface LoginUserListener{
+        void onComplete();
+    }
+
+    public Boolean loginUser(String email, String password, LoginUserListener listener){
+        return firebaseModel.loginUser(email, password, listener);
+    }
+
 
 
 }

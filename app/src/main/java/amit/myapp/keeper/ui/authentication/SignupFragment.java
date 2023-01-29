@@ -55,5 +55,7 @@ public class SignupFragment extends Fragment {
         binding.signupLoading.setVisibility(View.VISIBLE);
         appUserModel.registerUser(email, password, fullName, ID, 0, ()-> {Navigation.findNavController(binding.getRoot()).popBackStack();
         binding.signupLoading.setVisibility(View.GONE);});
+        //ToDo: on failed..
+
     }
 }

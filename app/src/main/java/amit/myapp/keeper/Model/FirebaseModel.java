@@ -99,6 +99,7 @@ public class FirebaseModel {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
+                    isSuccessful[0] = true;
                     AppUser user = new AppUser(fullName, ID, email, role);
                     appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).setValue(user).
                             addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -108,7 +109,6 @@ public class FirebaseModel {
                                     listener.onComplete();
                                 }
                             });
-                    isSuccessful[0] = true;
                 };
             }
         });
@@ -126,6 +126,20 @@ public class FirebaseModel {
 //            }
 //        });
 
+        return isSuccessful[0];
+    }
+
+    public Boolean loginUser(String email, String password, AppUserModel.LoginUserListener listener){
+        final Boolean[] isSuccessful = {false};
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    isSuccessful[0] = true;
+                    listener.onComplete();
+                }
+            }
+        });
         return isSuccessful[0];
     }
 
