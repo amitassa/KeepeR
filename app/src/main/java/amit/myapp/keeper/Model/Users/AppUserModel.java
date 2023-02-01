@@ -19,9 +19,8 @@ public class AppUserModel {
         void onComplete();
     }
 
-    public Boolean registerUser(String email, String password, String fullName, String ID, int role, RegisterUserListener listener){
-        Log.d("d", "registerUser: model ");
-        return firebaseModel.registerUser(email, password, fullName, ID, role, listener);
+    public void registerUser(String email, String password, String fullName, String ID, int role, RegisterUserListener listener){
+        firebaseModel.registerUser(email, password, fullName, ID, role, listener);
     }
 
     public interface LoginUserListener{
@@ -29,8 +28,8 @@ public class AppUserModel {
         void onFailure();
     }
 
-    public Boolean loginUser(String email, String password, LoginUserListener listener){
-        return firebaseModel.loginUser(email, password, listener);
+    public void loginUser(String email, String password, LoginUserListener listener){
+        firebaseModel.loginUser(email, password, listener);
     }
 
 

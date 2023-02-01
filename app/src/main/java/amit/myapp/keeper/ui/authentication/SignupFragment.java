@@ -41,7 +41,6 @@ public class SignupFragment extends Fragment {
         View root = binding.getRoot();
 
         appUserModel = AppUserModel.instance();
-        Log.d("D", "onCreateView: signup");
         binding.signupBtn.setOnClickListener((view1) -> {
             hideKeyboard();
             createUser();});
@@ -54,7 +53,6 @@ public class SignupFragment extends Fragment {
 
     public void createUser(){
         if (!validateUserInput()){return;}
-        Log.d("d", "createUser: start");
         String email = binding.signupEmailEt.getText().toString();
         String ID = binding.signupIdEt.getText().toString();
         String fullName = binding.signupFullnameEt.getText().toString();
