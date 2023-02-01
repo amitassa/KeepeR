@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import amit.myapp.keeper.Model.Users.AppUserModel;
+import amit.myapp.keeper.Model.Users.UserInputValidation;
 import amit.myapp.keeper.R;
 import amit.myapp.keeper.databinding.FragmentLoginBinding;
 import amit.myapp.keeper.databinding.FragmentMessagesBinding;
@@ -66,9 +67,19 @@ public class LoginFragment extends Fragment {
     }
 
     public void loginUser(){
-        //ToDo: validation
         String email = binding.loginEmailEt.getText().toString();
         String password = binding.loginPasswordEt.getText().toString();
+
+        if (!UserInputValidation.validateEmail(email)){
+            showError("Please enter a valid email!");
+            return;
+        }
+
+        if (!UserInputValidation.validatePassword(password)){
+            showError("Please enter a valid password!");
+            return;
+        }
+
         binding.loginProgressBar.setVisibility(View.VISIBLE);
         AppUserModel.LoginUserListener listener = new AppUserModel.LoginUserListener() {
             @Override
