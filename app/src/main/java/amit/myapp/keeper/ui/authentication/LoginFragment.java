@@ -1,5 +1,6 @@
 package amit.myapp.keeper.ui.authentication;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,7 +45,9 @@ public class LoginFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         appUserModel = AppUserModel.instance();
 
-        binding.loginSigninBtn.setOnClickListener(view -> loginUser());
+        binding.loginSigninBtn.setOnClickListener((view) -> {
+            hideKeyboard();
+            loginUser();});
 
         NavDirections registerAction = LoginFragmentDirections.actionLoginFragmentToSignupFragment();
         binding.loginSignupBtn.setOnClickListener(Navigation.createNavigateOnClickListener(registerAction));
@@ -65,14 +70,32 @@ public class LoginFragment extends Fragment {
         String email = binding.loginEmailEt.getText().toString();
         String password = binding.loginPasswordEt.getText().toString();
         binding.loginProgressBar.setVisibility(View.VISIBLE);
-        appUserModel.loginUser(email, password, () -> {goToMessagesFragment();
-        binding.loginProgressBar.setVisibility(View.GONE);});
-        //ToDo: on failed..
+        AppUserModel.LoginUserListener listener = new AppUserModel.LoginUserListener() {
+            @Override
+            public void onComplete() {
+                goToMessagesFragment();
+                binding.loginProgressBar.setVisibility(View.GONE);
+            }
 
+            @Override
+            public void onFailure() {
+                showError("Email or password are incorrecta");
+                binding.loginProgressBar.setVisibility(View.GONE);
+            }
+        };
+        appUserModel.loginUser(email, password, listener);
     }
 
     private void goToMessagesFragment(){
         NavDirections action = LoginFragmentDirections.actionLoginFragmentToMessagesFragment();
         Navigation.findNavController(binding.getRoot()).navigate(action);
+    }
+
+    private void showError(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void hideKeyboard(){
+        ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(binding.getRoot().getWindowToken(),0);
     }
 }

@@ -93,7 +93,6 @@ public class FirebaseModel {
     }
 
     public Boolean registerUser(String email, String password, String fullName, String ID, int role, AppUserModel.RegisterUserListener listener){
-        Log.d("d", "registerUser: firebase model ");
         final Boolean[] isSuccessful = {false};
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -105,7 +104,6 @@ public class FirebaseModel {
                             addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Log.d("D", "onComplete: user added" + user.getFullName());
                                     listener.onComplete();
                                 }
                             });
@@ -139,7 +137,13 @@ public class FirebaseModel {
                     listener.onComplete();
                 }
             }
-        });
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.onFailure();
+                    }
+                });
         return isSuccessful[0];
     }
 

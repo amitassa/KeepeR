@@ -26,6 +26,7 @@ public class AppUserModel {
 
     public interface LoginUserListener{
         void onComplete();
+        void onFailure();
     }
 
     public Boolean loginUser(String email, String password, LoginUserListener listener){

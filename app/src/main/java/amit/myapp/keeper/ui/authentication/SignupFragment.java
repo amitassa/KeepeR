@@ -43,7 +43,7 @@ public class SignupFragment extends Fragment {
         appUserModel = AppUserModel.instance();
         Log.d("D", "onCreateView: signup");
         binding.signupBtn.setOnClickListener((view1) -> {
-            ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view1.getWindowToken(),0);
+            hideKeyboard();
             createUser();});
         NavDirections loginAction = SignupFragmentDirections.actionSignupFragmentToLoginFragment();
         binding.loginSignupBtn.setOnClickListener(Navigation.createNavigateOnClickListener(loginAction));
@@ -72,21 +72,29 @@ public class SignupFragment extends Fragment {
         String fullName = binding.signupFullnameEt.getText().toString();
         String password = binding.signupPasswordEt.getText().toString();
         if (!UserInputValidation.validateName(fullName)){
-            Toast.makeText(getContext(), "Please enter a valid name", Toast.LENGTH_SHORT).show();
+            showError("Please enter a valid name");
             return false;
         }
         if (!UserInputValidation.validateId(ID)){
-            Toast.makeText(getContext(), "Please enter a valid ID", Toast.LENGTH_SHORT).show();
+            showError("Please enter a valid ID");
             return false;
         }
         if (!UserInputValidation.validateEmail(email)){
-            Toast.makeText(getContext(), "Please enter a valid email", Toast.LENGTH_SHORT).show();
+            showError("Please enter a valid email");
             return false;
         }
         if (!UserInputValidation.validatePassword(password)){
-            Toast.makeText(getContext(), "Password should be at least 6 numbers/letters", Toast.LENGTH_SHORT).show();
+            showError("Password should be at least 6 numbers/letters");
             return false;
         }
         return true;
+    }
+
+    private void showError(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void hideKeyboard(){
+        ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(binding.getRoot().getWindowToken(),0);
     }
 }
