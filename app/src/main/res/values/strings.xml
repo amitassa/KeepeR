@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">KeepeR</string>
-    <string name="title_home">תקלות</string>
+    <string name="title_incidents">תקלות</string>
     <string name="title_Messages">הודעות</string>
     <string name="add_message_title">הודעה חדשה</string>
     <string name="edit_message_title">ערוך הודעה</string>

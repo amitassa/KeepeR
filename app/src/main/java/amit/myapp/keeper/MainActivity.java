@@ -28,9 +28,7 @@ import amit.myapp.keeper.ui.messages.MessagesFragmentDirections;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    Button btnLogOut;
     FirebaseAuth mAuth;
-    NavController navController;
     BottomNavigationView navView;
 
 
@@ -38,32 +36,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        IncidentsFragment incidentsFragment = new IncidentsFragment();
-        MessagesFragment messagesFragment = new MessagesFragment();
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
-        Log.d("aa", "onCreate: ");
-        navView = findViewById(R.id.bottom_nav_bar);
-        navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                Log.d("click", "onNavigationItemSelected: aa");
-                switch (item.getItemId()){
-                    case R.id.incidentsFragment:
-                        //getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, incidentsFragment).commit();
-                        Log.d("click", "onNavigationItemSelected: fuck");
-
-                        return true;
-                    case R.id.messagesFragment:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, messagesFragment).commit();
-                        return true;
-                }
-
-                return false;
-            }
-        });
+        createBottomNavigation();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 //        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -85,5 +63,24 @@ public class MainActivity extends AppCompatActivity {
         if (user == null){
 
         }
+    }
+
+    private void createBottomNavigation(){
+        IncidentsFragment incidentsFragment = new IncidentsFragment();
+        MessagesFragment messagesFragment = new MessagesFragment();
+        navView = (BottomNavigationView) binding.bottomNavBar;
+        navView.setSelectedItemId(R.id.messagesFragment);
+        navView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.incidentsFragment:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, incidentsFragment).commit();
+                    return true;
+                case R.id.messagesFragment:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, messagesFragment).commit();
+                    return true;
+            }
+
+            return false;
+        });
     }
 }
