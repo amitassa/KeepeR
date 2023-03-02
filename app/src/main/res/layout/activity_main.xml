@@ -71,14 +71,26 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
 
-                app:toolbarId="@+id/toolbar">
+                app:toolbarId="@+id/top_app_bar">
 
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/top_app_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@color/appColor"></androidx.appcompat.widget.Toolbar>
+                    android:layout_height="wrap_content"
+                    android:background="@color/appColor"
+                    app:menu="@menu/top_app_bar_menu"
+                    style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                    >
+
+                    <TextView
+                        android:id="@+id/top_app_bar_hello_user_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hi"
+                        android:textColor="#FFFFFF"
+                        android:textSize="30sp"></TextView>
+                </com.google.android.material.appbar.MaterialToolbar>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

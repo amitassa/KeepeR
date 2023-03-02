@@ -9,8 +9,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,7 +39,7 @@ public class FirebaseModel {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference appUserDatabaseReference;
 
-    public FirebaseModel(){
+    public FirebaseModel() {
         db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(false)
@@ -47,14 +51,14 @@ public class FirebaseModel {
         appUserDatabaseReference = firebaseDatabase.getReference("AppUser");
     }
 
-    public void getAllMessages(MessagesModel.GetAllMessagesListener callback){
+    public void getAllMessages(MessagesModel.GetAllMessagesListener callback) {
         db.collection(Message.COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<Message> messageList = new LinkedList<>();
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     QuerySnapshot jsonsList = task.getResult();
-                    for (DocumentSnapshot json: jsonsList){
+                    for (DocumentSnapshot json : jsonsList) {
                         String id = json.getId();
                         Message message = Message.fromJson(json.getData(), id);
                         messageList.add(message);
@@ -65,14 +69,17 @@ public class FirebaseModel {
         });
     }
 
-    public void addMessage(Message message, MessagesModel.AddMessageListener listener){
+    public void addMessage(Message message, MessagesModel.AddMessageListener listener) {
         db.collection(Message.COLLECTION).document().set(message.toJson()).
                 addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {listener.onComplete();}});
+                    public void onComplete(@NonNull Task<Void> task) {
+                        listener.onComplete();
+                    }
+                });
     }
 
-    public void deleteMessage(Message message, MessagesModel.DeleteMessageListener listener){
+    public void deleteMessage(Message message, MessagesModel.DeleteMessageListener listener) {
         db.collection(Message.COLLECTION).document(message.getId()).delete().
                 addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -82,7 +89,7 @@ public class FirebaseModel {
                 });
     }
 
-    public void editMessage(Message message, MessagesModel.EditMessageListener listener){
+    public void editMessage(Message message, MessagesModel.EditMessageListener listener) {
         db.collection(Message.COLLECTION).document(message.getId()).set(message.toJson())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -92,11 +99,11 @@ public class FirebaseModel {
                 });
     }
 
-    public void registerUser(String email, String password, String fullName, String ID, int role, AppUserModel.RegisterUserListener listener){
+    public void registerUser(String email, String password, String fullName, String ID, int role, AppUserModel.RegisterUserListener listener) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     AppUser user = new AppUser(fullName, ID, email, role);
                     appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).setValue(user).
                             addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -105,20 +112,21 @@ public class FirebaseModel {
                                     listener.onComplete();
                                 }
                             });
-                };
+                }
+                ;
             }
         });
     }
 
-    public void loginUser(String email, String password, AppUserModel.LoginUserListener listener){
+    public void loginUser(String email, String password, AppUserModel.LoginUserListener listener) {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    listener.onComplete();
-                }
-            }
-        })
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            listener.onComplete();
+                        }
+                    }
+                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -127,5 +135,30 @@ public class FirebaseModel {
                 });
     }
 
+    public void getCurrentUser(AppUserModel.getCurrentUserListener listener) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null){
+            listener.onFailure();
+            return;
+        }
+        String userId = mAuth.getCurrentUser().getUid();
+        appUserDatabaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                AppUser user = snapshot.getValue(AppUser.class);
+                listener.onComplete(user);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("getCurrentUser", "Failed to read data");
+                listener.onFailure();
+            }
+        });
+    }
+
+    public void logOutUser(AppUserModel.logOutUserListener listener){
+        mAuth.signOut();
+        listener.onComplete();
+    }
 }

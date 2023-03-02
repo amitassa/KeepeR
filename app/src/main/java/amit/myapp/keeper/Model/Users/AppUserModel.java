@@ -32,6 +32,23 @@ public class AppUserModel {
         firebaseModel.loginUser(email, password, listener);
     }
 
+    public interface getCurrentUserListener{
+        void onComplete(AppUser user);
+        void onFailure();
+    }
+
+    public void getCurrentUser(getCurrentUserListener listener){
+        firebaseModel.getCurrentUser(listener);
+    }
+
+    public interface logOutUserListener{
+        void onComplete();
+    }
+
+    public void logOutUser(logOutUserListener listener){
+        firebaseModel.logOutUser(listener);
+    }
+
 
 
 }
