@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import amit.myapp.keeper.MainActivity;
 import amit.myapp.keeper.Model.Users.AppUserModel;
 import amit.myapp.keeper.Model.Users.UserInputValidation;
 import amit.myapp.keeper.R;
@@ -33,6 +34,7 @@ public class LoginFragment extends Fragment {
     NavHostFragment navHostFragment;
     NavController navController;
     FirebaseAuth mAuth;
+    MainActivity mainActivity;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -45,6 +47,7 @@ public class LoginFragment extends Fragment {
         View root = binding.getRoot();
         mAuth = FirebaseAuth.getInstance();
         appUserModel = AppUserModel.instance();
+        mainActivity = ((MainActivity) getActivity());
 
         binding.loginSigninBtn.setOnClickListener((view) -> {
             hideKeyboard();
@@ -86,11 +89,13 @@ public class LoginFragment extends Fragment {
             public void onComplete() {
                 goToMessagesFragment();
                 binding.loginProgressBar.setVisibility(View.GONE);
+                mainActivity.updateCurrentUser();
+                mainActivity.setHelloUser();
             }
 
             @Override
             public void onFailure() {
-                showError("Email or password are incorrecta");
+                showError("Email or password are incorrect");
                 binding.loginProgressBar.setVisibility(View.GONE);
             }
         };

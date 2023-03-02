@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/incidentsFragment"
         android:name="amit.myapp.keeper.ui.Incidents.IncidentsFragment"
-        android:label="@string/title_home"
+        android:label="@string/title_incidents"
         tools:layout="@layout/fragment_incidents" />
 
     <fragment

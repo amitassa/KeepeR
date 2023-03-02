@@ -43,10 +43,11 @@ public class MessagesFragment extends Fragment {
             @Override
             public void onItemClick(int pos) {}
         });
-        binding.messagesfragSignout.setOnClickListener((view -> {
-            FirebaseAuth.getInstance().signOut();
-            reloadData();
-        }));
+//        // ToDo: remove this button
+//        binding.messagesfragSignout.setOnClickListener((view -> {
+//            FirebaseAuth.getInstance().signOut();
+//            reloadData();
+//        }));
 
         NavDirections action = MessagesFragmentDirections.actionGlobalAddMessageFragment();
         binding.getRoot().findViewById(R.id.messages_bar_add_btn).setOnClickListener(Navigation.createNavigateOnClickListener(action));
