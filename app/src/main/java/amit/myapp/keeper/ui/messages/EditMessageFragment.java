@@ -49,7 +49,7 @@ public class EditMessageFragment extends Fragment {
         View root = binding.getRoot();
 
         setData();
-
+        //ToDo: let edit by permission
         binding.editMessageFragmentPublishBtn.setOnClickListener(view1 ->{
             updateMessage(view1);
         });

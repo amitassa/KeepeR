@@ -48,7 +48,6 @@ public class LoginFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         appUserModel = AppUserModel.instance();
         mainActivity = ((MainActivity) getActivity());
-
         binding.loginSigninBtn.setOnClickListener((view) -> {
             hideKeyboard();
             loginUser();});
@@ -64,6 +63,7 @@ public class LoginFragment extends Fragment {
         super.onStart();
         //ToDo: get user from users model
         FirebaseUser user = mAuth.getCurrentUser();
+        mainActivity.findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
         if (user != null){
            goToMessagesFragment();
         }
@@ -87,10 +87,12 @@ public class LoginFragment extends Fragment {
         AppUserModel.LoginUserListener listener = new AppUserModel.LoginUserListener() {
             @Override
             public void onComplete() {
-                goToMessagesFragment();
-                binding.loginProgressBar.setVisibility(View.GONE);
+                binding.loginProgressBar.setVisibility(View.VISIBLE);
                 mainActivity.updateCurrentUser();
                 mainActivity.setHelloUser();
+                goToMessagesFragment();
+                getActivity().getFragmentManager().popBackStack();
+
             }
 
             @Override
@@ -105,6 +107,8 @@ public class LoginFragment extends Fragment {
     private void goToMessagesFragment(){
         NavDirections action = LoginFragmentDirections.actionLoginFragmentToMessagesFragment();
         Navigation.findNavController(binding.getRoot()).navigate(action);
+        mainActivity.findViewById(R.id.bottom_nav_bar).setVisibility(View.VISIBLE);
+
     }
 
     private void showError(String message){

@@ -20,13 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.LinkedList;
 import java.util.List;
 
+import amit.myapp.keeper.MainActivity;
+import amit.myapp.keeper.Model.FirebaseModel;
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
+import amit.myapp.keeper.Model.Users.AppUser;
 import amit.myapp.keeper.R;
 
 class MessageViewHolder extends RecyclerView.ViewHolder{
     TextView titleTv; TextView contentTv; TextView dateTv; TextView publisherTv; ImageButton deleteBtn; ImageButton editBtn;
     List<Message> messageList; MessagesModel.DeleteMessageListener deleteMessageListener; MessagesModel.EditMessageListener editMessageListener;
+
+
 
 
     public MessageViewHolder(@NonNull View itemView, MessagesRecyclerAdapter.OnItemClickListener listener, List<Message> list,
@@ -49,9 +54,11 @@ class MessageViewHolder extends RecyclerView.ViewHolder{
             });
         });
 
+        //ToDo: edit by permission
         editBtn.setOnClickListener(view -> {
             int pos = getAdapterPosition();
             Message message = messageList.get(pos);
+
             NavDirections action = MessagesFragmentDirections.actionMessagesFragmentToEditMessageFragment(message);
             Navigation.findNavController(itemView).navigate(action);
         });
