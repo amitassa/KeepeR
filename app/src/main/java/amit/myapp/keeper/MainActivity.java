@@ -98,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public AppUser getCurrentUser(){
+        return this.currentUser;
+    }
+
     public void updateCurrentUser(){
         AppUserModel.getCurrentUserListener listener = new AppUserModel.getCurrentUserListener() {
             @Override
@@ -152,4 +156,6 @@ public class MainActivity extends AppCompatActivity {
         appUserModel.logOutUser(listener);
 
     }
+
+
 }

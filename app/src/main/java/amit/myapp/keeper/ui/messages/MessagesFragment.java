@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.LinkedList;
 import java.util.List;
 
+import amit.myapp.keeper.MainActivity;
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
 import amit.myapp.keeper.R;
@@ -39,24 +40,12 @@ public class MessagesFragment extends Fragment {
         adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messageList, ()->{reloadData();});
         binding.messagesRecyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new MessagesRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int pos) {}
+        adapter.setOnItemClickListener(pos -> {
+            // ToDo: add user page maybe
         });
-//        // ToDo: remove this button
-//        binding.messagesfragSignout.setOnClickListener((view -> {
-//            FirebaseAuth.getInstance().signOut();
-//            reloadData();
-//        }));
-        //reloadData();
 
         NavDirections action = MessagesFragmentDirections.actionGlobalAddMessageFragment();
         binding.getRoot().findViewById(R.id.messages_bar_add_btn).setOnClickListener(Navigation.createNavigateOnClickListener(action));
-
-        //binding.messagesFragAddBtn.setOnClickListener(Navigation.);
-//        Message message = new Message("תוכן", "כותרת", "עמית", "13/01/2023");
-//        MessagesModel.instance().addMessage(message, ()->{
-//        });
 
         return root;
     }
@@ -73,25 +62,13 @@ public class MessagesFragment extends Fragment {
     }
 
     public void reloadData(){
-
-//        MessagesModel.GetAllMessagesListener listener = new MessagesModel.GetAllMessagesListener() {
-//            @Override
-//            public void onComplete(List<Message> data) {
-//                messageList = data;
-//                adapter.setData(messageList);
-//            }
-//        };
-//        MessagesModel.instance().getAllMessages(listener);
-
-        // ToDo: progress bar
         binding.messagesProgressBar.setVisibility(View.VISIBLE);
         MessagesModel.instance().getAllMessages((list)->{
             messageList = list;
             adapter.setData(messageList);
             binding.messagesProgressBar.setVisibility(View.GONE);
-            //binding.progressBar.setVisibility(View.GONE);
             // ToDo: Get it from appuser model
-            if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            if(((MainActivity)getActivity()).getCurrentUser() == null){
                 Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalLoginFragment());
             }
         });

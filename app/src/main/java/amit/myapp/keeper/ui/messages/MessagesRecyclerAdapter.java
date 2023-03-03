@@ -42,35 +42,24 @@ class MessageViewHolder extends RecyclerView.ViewHolder{
         editBtn = itemView.findViewById(R.id.messagelistrow_edit_btn);
         this.deleteMessageListener = deleteMessageListener;
 
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int pos = getAdapterPosition();
-                MessagesModel.instance().deleteMessage(messageList.get(pos), () ->{
-                    deleteMessageListener.onComplete();
-                });
-            }
+        deleteBtn.setOnClickListener(view -> {
+            int pos = getAdapterPosition();
+            MessagesModel.instance().deleteMessage(messageList.get(pos), () ->{
+                deleteMessageListener.onComplete();
+            });
         });
 
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int pos = getAdapterPosition();
-                Message message = messageList.get(pos);
-                NavDirections action = MessagesFragmentDirections.actionMessagesFragmentToEditMessageFragment(message);
-                Navigation.findNavController(itemView).navigate(action);
-            }
+        editBtn.setOnClickListener(view -> {
+            int pos = getAdapterPosition();
+            Message message = messageList.get(pos);
+            NavDirections action = MessagesFragmentDirections.actionMessagesFragmentToEditMessageFragment(message);
+            Navigation.findNavController(itemView).navigate(action);
         });
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int pos = getAdapterPosition();
-                listener.onItemClick(pos);
-            }
+        itemView.setOnClickListener(view -> {
+            int pos = getAdapterPosition();
+            listener.onItemClick(pos);
         });
-
-
     }
 
     public void bind(Message message, int pos) {
