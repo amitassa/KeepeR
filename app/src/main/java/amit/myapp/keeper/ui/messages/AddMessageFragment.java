@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import amit.myapp.keeper.MainActivity;
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
+import amit.myapp.keeper.Model.Users.AppUser;
 import amit.myapp.keeper.R;
 import amit.myapp.keeper.databinding.FragmentAddMessageBinding;
 import amit.myapp.keeper.databinding.FragmentMessagesBinding;
@@ -21,10 +23,12 @@ import amit.myapp.keeper.databinding.FragmentMessagesBinding;
 public class AddMessageFragment extends Fragment {
 
     private FragmentAddMessageBinding binding;
+    private AppUser currentUser;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        currentUser = ((MainActivity)getActivity()).getCurrentUser();
 
     }
 
@@ -58,7 +62,7 @@ public class AddMessageFragment extends Fragment {
     private void publishMessage(View view){
         String title = binding.addMessageFragmentMessageTitle.getText().toString();
         String content = binding.addMessageFragmentMessageContent.getText().toString();
-        Message message = new Message(content, title, "Amit", "123");
+        Message message = new Message(content, title, currentUser.getFullName(), currentUser.getId());
         MessagesModel.instance().addMessage(message, ()-> {Navigation.findNavController(view).popBackStack();});
     }
 }
