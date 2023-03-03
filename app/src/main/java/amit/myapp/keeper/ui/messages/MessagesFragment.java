@@ -35,7 +35,7 @@ public class MessagesFragment extends Fragment {
 
         binding.messagesRecyclerView.setHasFixedSize(true);
         binding.messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        // sent the adapter the delete message callbacks
+        // Create the adapter with a delete message listener
         adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messageList, ()->{reloadData();});
         binding.messagesRecyclerView.setAdapter(adapter);
 
@@ -48,6 +48,7 @@ public class MessagesFragment extends Fragment {
 //            FirebaseAuth.getInstance().signOut();
 //            reloadData();
 //        }));
+        //reloadData();
 
         NavDirections action = MessagesFragmentDirections.actionGlobalAddMessageFragment();
         binding.getRoot().findViewById(R.id.messages_bar_add_btn).setOnClickListener(Navigation.createNavigateOnClickListener(action));
@@ -72,11 +73,22 @@ public class MessagesFragment extends Fragment {
     }
 
     public void reloadData(){
+
+//        MessagesModel.GetAllMessagesListener listener = new MessagesModel.GetAllMessagesListener() {
+//            @Override
+//            public void onComplete(List<Message> data) {
+//                messageList = data;
+//                adapter.setData(messageList);
+//            }
+//        };
+//        MessagesModel.instance().getAllMessages(listener);
+
         // ToDo: progress bar
-        //binding.progressBar.setVisibility(View.VISIBLE);
+        binding.messagesProgressBar.setVisibility(View.VISIBLE);
         MessagesModel.instance().getAllMessages((list)->{
             messageList = list;
             adapter.setData(messageList);
+            binding.messagesProgressBar.setVisibility(View.GONE);
             //binding.progressBar.setVisibility(View.GONE);
             // ToDo: Get it from appuser model
             if(FirebaseAuth.getInstance().getCurrentUser() == null){
