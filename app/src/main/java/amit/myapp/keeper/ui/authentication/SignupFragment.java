@@ -44,6 +44,7 @@ public class SignupFragment extends Fragment {
         binding.signupBtn.setOnClickListener((view1) -> {
             hideKeyboard();
             createUser();});
+        // ToDo: set bottom nav bar GONE
         NavDirections loginAction = SignupFragmentDirections.actionSignupFragmentToLoginFragment();
         binding.loginSignupBtn.setOnClickListener(Navigation.createNavigateOnClickListener(loginAction));
         mAuth = FirebaseAuth.getInstance();

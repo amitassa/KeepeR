@@ -1,5 +1,7 @@
 package amit.myapp.keeper;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -154,6 +156,9 @@ public class MainActivity extends AppCompatActivity {
             setHelloUser();
         };
         appUserModel.logOutUser(listener);
+        // ToDo: fix it
+//        FragmentManager manager=getFragmentManager();
+//        manager.popBackStack();
 
     }
 

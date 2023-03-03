@@ -65,7 +65,8 @@ public class LoginFragment extends Fragment {
         FirebaseUser user = mAuth.getCurrentUser();
         mainActivity.findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
         if (user != null){
-           goToMessagesFragment();
+            getActivity().getFragmentManager().popBackStack();
+            goToMessagesFragment();
         }
     }
 
