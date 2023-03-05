@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,18 +25,20 @@ import amit.myapp.keeper.MainActivity;
 import amit.myapp.keeper.Model.FirebaseModel;
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
+import amit.myapp.keeper.Model.Roles.PermissionManager;
 import amit.myapp.keeper.Model.Users.AppUser;
 import amit.myapp.keeper.R;
 
 class MessageViewHolder extends RecyclerView.ViewHolder{
     TextView titleTv; TextView contentTv; TextView dateTv; TextView publisherTv; ImageButton deleteBtn; ImageButton editBtn;
     List<Message> messageList; MessagesModel.DeleteMessageListener deleteMessageListener; MessagesModel.EditMessageListener editMessageListener;
+    MainActivity mainActivity;
 
 
 
 
     public MessageViewHolder(@NonNull View itemView, MessagesRecyclerAdapter.OnItemClickListener listener, List<Message> list,
-                             MessagesModel.DeleteMessageListener deleteMessageListener) {
+                             MessagesModel.DeleteMessageListener deleteMessageListener, MainActivity mainActivity) {
         super(itemView);
 
         this.messageList = list;
@@ -49,7 +52,13 @@ class MessageViewHolder extends RecyclerView.ViewHolder{
 
         deleteBtn.setOnClickListener(view -> {
             int pos = getAdapterPosition();
-            MessagesModel.instance().deleteMessage(messageList.get(pos), () ->{
+            Message message = messageList.get(pos);
+
+            if (!PermissionManager.checkMessageDeletionPermissions(mainActivity.getCurrentUser(), message)) {
+                showNoPermissionError();
+                return;
+            }
+            MessagesModel.instance().deleteMessage(message, () ->{
                 deleteMessageListener.onComplete();
             });
         });
@@ -59,6 +68,10 @@ class MessageViewHolder extends RecyclerView.ViewHolder{
             int pos = getAdapterPosition();
             Message message = messageList.get(pos);
 
+            if (!PermissionManager.checkEditMessagePermissions(mainActivity.getCurrentUser(), message)) {
+                showNoPermissionError();
+                return;
+            }
             NavDirections action = MessagesFragmentDirections.actionMessagesFragmentToEditMessageFragment(message);
             Navigation.findNavController(itemView).navigate(action);
         });
@@ -67,6 +80,10 @@ class MessageViewHolder extends RecyclerView.ViewHolder{
             int pos = getAdapterPosition();
             listener.onItemClick(pos);
         });
+    }
+
+    private void showNoPermissionError(){
+        Toast.makeText(contentTv.getContext(), "You do not have permissions to do this action", Toast.LENGTH_SHORT).show();
     }
 
     public void bind(Message message, int pos) {
@@ -86,6 +103,7 @@ public class MessagesRecyclerAdapter extends RecyclerView.Adapter<MessageViewHol
     MessagesModel.EditMessageListener editMessageListener;
     LayoutInflater inflater;
     List<Message> messageList = new LinkedList<Message>();
+    MainActivity mainActivity;
 
     public void setData(List<Message> list){
         this.messageList = list;
@@ -93,10 +111,11 @@ public class MessagesRecyclerAdapter extends RecyclerView.Adapter<MessageViewHol
     }
 
     public MessagesRecyclerAdapter(LayoutInflater inflater, List<Message> list,
-                                   MessagesModel.DeleteMessageListener deleteListener){
+                                   MessagesModel.DeleteMessageListener deleteListener, MainActivity mainActivity){
         this.inflater = inflater;
         this.messageList = list;
         this.deleteMessageListener = deleteListener;
+        this.mainActivity = mainActivity;
     }
 
     void setOnItemClickListener(OnItemClickListener listener){this.listener = listener;}
@@ -105,7 +124,7 @@ public class MessagesRecyclerAdapter extends RecyclerView.Adapter<MessageViewHol
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.message_list_row, parent, false);
-        return new MessageViewHolder(view, listener, messageList, deleteMessageListener);
+        return new MessageViewHolder(view, listener, messageList, deleteMessageListener, mainActivity);
     }
 
     @Override

@@ -59,7 +59,7 @@ public class SignupFragment extends Fragment {
         String fullName = binding.signupFullnameEt.getText().toString();
         String password = binding.signupPasswordEt.getText().toString();
         binding.signupLoading.setVisibility(View.VISIBLE);
-        appUserModel.registerUser(email, password, fullName, ID, 0, ()-> {Navigation.findNavController(binding.getRoot()).popBackStack();
+        appUserModel.registerUser(email, password, fullName, ID, 1, ()-> {Navigation.findNavController(binding.getRoot()).popBackStack();
         binding.signupLoading.setVisibility(View.GONE);});
         //ToDo: on failed..
 

@@ -37,7 +37,7 @@ public class MessagesFragment extends Fragment {
         binding.messagesRecyclerView.setHasFixedSize(true);
         binding.messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         // Create the adapter with a delete message listener
-        adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messageList, ()->{reloadData();});
+        adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messageList, ()->{reloadData();}, (MainActivity) getActivity());
         binding.messagesRecyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(pos -> {
@@ -67,7 +67,6 @@ public class MessagesFragment extends Fragment {
             messageList = list;
             adapter.setData(messageList);
             binding.messagesProgressBar.setVisibility(View.GONE);
-            // ToDo: Get it from appuser model
             if(((MainActivity)getActivity()).getCurrentUser() == null){
                 Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalLoginFragment());
             }

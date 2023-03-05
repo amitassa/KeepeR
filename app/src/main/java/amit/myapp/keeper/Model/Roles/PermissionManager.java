@@ -5,6 +5,10 @@ import amit.myapp.keeper.Model.Users.AppUser;
 
 public class PermissionManager {
     public static Boolean checkEditMessagePermissions(AppUser editor, Message message){
-        return editor.getId() == message.getPublisherId();
+        return editor.getId().equals(message.getPublisherId()) || editor.getRole() == Role.ADMIN;
+    }
+
+    public static Boolean checkMessageDeletionPermissions(AppUser editor, Message message){
+        return editor.getRole() == Role.ADMIN;
     }
 }
