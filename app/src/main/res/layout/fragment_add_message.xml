@@ -68,31 +68,31 @@
 
                 <Button
                     android:id="@+id/addMessageFragment_publish_btn"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:backgroundTint="@color/appColor"
-                    android:text="Publish"
+                    android:text="פרסם"
                     app:cornerRadius="6dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/addMessageFragment_cancel_btn"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/Widget.MaterialComponents.Button.Icon"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/addMessageFragment_cancel_btn"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="Cancel"
-                    app:cornerRadius="6dp"
                     android:backgroundTint="@color/appColor"
+                    android:text="ביטול"
+                    app:cornerRadius="6dp"
                     app:layout_constraintBottom_toBottomOf="@+id/addMessageFragment_publish_btn"
                     app:layout_constraintStart_toEndOf="@+id/addMessageFragment_publish_btn"
-                    app:layout_constraintTop_toTopOf="@+id/addMessageFragment_publish_btn"
-                    style="@style/Widget.MaterialComponents.Button.Icon"/>
+                    app:layout_constraintTop_toTopOf="@+id/addMessageFragment_publish_btn" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

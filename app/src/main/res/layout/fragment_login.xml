@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:text="Login"
+        android:text="התחברות"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/login_email_et"
         app:layout_constraintEnd_toEndOf="@id/login_email_et"

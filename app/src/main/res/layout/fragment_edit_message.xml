@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:backgroundTint="@color/appColor"
-                    android:text="Update"
+                    android:text="עדכן"
                     app:cornerRadius="6dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/editMessageFragment_cancel_btn"
@@ -83,16 +83,16 @@
 
                 <Button
                     android:id="@+id/editMessageFragment_cancel_btn"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="Cancel"
-                    app:cornerRadius="6dp"
                     android:backgroundTint="@color/appColor"
+                    android:text="ביטול"
+                    app:cornerRadius="6dp"
                     app:layout_constraintBottom_toBottomOf="@+id/editMessageFragment_publish_btn"
                     app:layout_constraintStart_toEndOf="@+id/editMessageFragment_publish_btn"
-                    app:layout_constraintTop_toTopOf="@+id/editMessageFragment_publish_btn"
-                    style="@style/Widget.MaterialComponents.Button.Icon"/>
+                    app:layout_constraintTop_toTopOf="@+id/editMessageFragment_publish_btn" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

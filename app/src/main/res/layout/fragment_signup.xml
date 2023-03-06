@@ -107,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:text="Sign Up"
+        android:text="הרשמה"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/signup_fullname_et"
         app:layout_constraintEnd_toEndOf="@id/signup_fullname_et"
