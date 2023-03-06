@@ -56,54 +56,23 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
         createBottomNavigation();
         createTopAppBar();
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.incidentsFragment, R.id.messagesFragment)
-//                .build();
-//        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
-//        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-//        navController = navHostFragment.getNavController();
-//        //NavigationUI.setupActionBarWithNavController(this, navController);//, appBarConfiguration);
-//        NavigationUI.setupWithNavController(binding.navView, navController);
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        LoginFragment loginFragment = new LoginFragment();
         if (currentUser == null){
-            //getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, loginFragment).commit();
+            navController.navigate(R.id.loginFragment);
         }
         updateCurrentUser();
-        //setHelloUser();
-
-
     }
 
     private void createBottomNavigation(){
-        IncidentsFragment incidentsFragment = new IncidentsFragment();
-        MessagesFragment messagesFragment = new MessagesFragment();
-        navView = (BottomNavigationView) binding.bottomNavBar;
+        navView = binding.bottomNavBar;
         NavigationUI.setupWithNavController(navView, navController);
         navView.setSelectedItemId(R.id.messagesFragment);
         navView.setOnItemSelectedListener(item -> NavigationUI.onNavDestinationSelected(item, navController));
-//            switch (item.getItemId()){
-//                case R.id.incidentsFragment:
-//                    //getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, incidentsFragment).commit();
-//                    NavigationUI.onNavDestinationSelected(item, navController);
-//                    return true;
-//                case R.id.messagesFragment:
-//                    //getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, messagesFragment).commit();
-//                    NavigationUI.onNavDestinationSelected(item, navController);
-//                    return true;
-//            }
-//
-//            return false;
-//        });
+
     }
 
     public AppUser getCurrentUser(){
@@ -128,17 +97,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createTopAppBar(){
-        topAppBar = (MaterialToolbar) binding.topAppBar;
-        topAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.top_app_bar_logout:
-                        logOutUser();
-                        return true;
-                }
-                return false;
+        topAppBar = binding.topAppBar;
+        topAppBar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()){
+                case R.id.top_app_bar_logout:
+                    logOutUser();
+                    return true;
             }
+            return false;
         });
     }
     public void setHelloUser(){
@@ -151,12 +117,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logOutUser(){
-        //LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager().findFragmentById(R.id.loginFragment);
-//        LoginFragment loginFragment = new LoginFragment();
         AppUserModel.logOutUserListener listener = () -> {
             currentUser = null;
-            // ToDo: maybe this what cracks up the fragments
-            //getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, LoginFragment.class, null).commit();
             navController.navigate(R.id.loginFragment);
             setHelloUser();
         };
