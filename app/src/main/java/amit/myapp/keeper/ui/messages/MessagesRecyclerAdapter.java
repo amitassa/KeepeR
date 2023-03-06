@@ -63,7 +63,6 @@ class MessageViewHolder extends RecyclerView.ViewHolder{
             });
         });
 
-        //ToDo: edit by permission
         editBtn.setOnClickListener(view -> {
             int pos = getAdapterPosition();
             Message message = messageList.get(pos);

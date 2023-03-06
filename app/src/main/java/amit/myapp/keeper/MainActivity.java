@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         appUserModel = AppUserModel.instance();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         createBottomNavigation();
         createTopAppBar();
 
@@ -84,7 +85,10 @@ public class MainActivity extends AppCompatActivity {
     private void createBottomNavigation(){
         IncidentsFragment incidentsFragment = new IncidentsFragment();
         MessagesFragment messagesFragment = new MessagesFragment();
+        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
+        NavController navController = navHostFragment.getNavController();
         navView = (BottomNavigationView) binding.bottomNavBar;
+        NavigationUI.setupWithNavController(navView, navController);
         navView.setSelectedItemId(R.id.messagesFragment);
         navView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -109,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(AppUser user) {
                 currentUser = user;
-                //ToDo: shoudnt be here, may be async problem
                 setHelloUser();
             }
 
@@ -137,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void setHelloUser(){
-        // Todo: create the hello, user on top app bar title
-        // check things like "main activity on fragment change"
         if (currentUser != null){
             binding.topAppBarHelloUserTv.setText("Hello, " + currentUser.getFullName());
         }
@@ -148,17 +149,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logOutUser(){
-        //ToDo: logout from User Model
+        //LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager().findFragmentById(R.id.loginFragment);
         LoginFragment loginFragment = new LoginFragment();
         AppUserModel.logOutUserListener listener = () -> {
             currentUser = null;
-            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, loginFragment).commit();
+            // ToDo: maybe this what cracks up the fragments
+            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, LoginFragment.class, null).commit();
             setHelloUser();
         };
         appUserModel.logOutUser(listener);
-        // ToDo: fix it
-//        FragmentManager manager=getFragmentManager();
-//        manager.popBackStack();
 
     }
 

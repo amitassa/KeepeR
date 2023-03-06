@@ -10,6 +10,7 @@ import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import amit.myapp.keeper.MainActivity;
+import amit.myapp.keeper.Model.Users.AppUser;
 import amit.myapp.keeper.Model.Users.AppUserModel;
 import amit.myapp.keeper.Model.Users.UserInputValidation;
 import amit.myapp.keeper.R;
 import amit.myapp.keeper.databinding.FragmentLoginBinding;
 import amit.myapp.keeper.databinding.FragmentMessagesBinding;
+import amit.myapp.keeper.ui.messages.MessagesFragment;
 
 
 public class LoginFragment extends Fragment {
@@ -33,8 +36,8 @@ public class LoginFragment extends Fragment {
     AppUserModel appUserModel;
     NavHostFragment navHostFragment;
     NavController navController;
-    FirebaseAuth mAuth;
     MainActivity mainActivity;
+    View root;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -44,8 +47,8 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-        mAuth = FirebaseAuth.getInstance();
+        root = binding.getRoot();
+        //navHostFragment = root.findViewById(R.id.nav_host_fragment_activity_main);
         appUserModel = AppUserModel.instance();
         mainActivity = ((MainActivity) getActivity());
         binding.loginSigninBtn.setOnClickListener((view) -> {
@@ -61,11 +64,11 @@ public class LoginFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //ToDo: get user from users model
-        FirebaseUser user = mAuth.getCurrentUser();
+        AppUser user = mainActivity.getCurrentUser();
         mainActivity.findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
         if (user != null){
-            getActivity().getFragmentManager().popBackStack();
+            Log.d("user", user.getFullName());
+            //getActivity().getFragmentManager().popBackStack();
             goToMessagesFragment();
         }
     }
@@ -92,7 +95,7 @@ public class LoginFragment extends Fragment {
                 mainActivity.updateCurrentUser();
                 mainActivity.setHelloUser();
                 goToMessagesFragment();
-                getActivity().getFragmentManager().popBackStack();
+                //getActivity().getFragmentManager().popBackStack();
 
             }
 
@@ -107,7 +110,9 @@ public class LoginFragment extends Fragment {
 
     private void goToMessagesFragment(){
         NavDirections action = LoginFragmentDirections.actionLoginFragmentToMessagesFragment();
-        Navigation.findNavController(binding.getRoot()).navigate(action);
+        Navigation.findNavController(this.getView()).navigate(action);
+        //MessagesFragment messagesFragment = new MessagesFragment();
+        //mainActivity.getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, MessagesFragment.class, null).commit();
         mainActivity.findViewById(R.id.bottom_nav_bar).setVisibility(View.VISIBLE);
 
     }

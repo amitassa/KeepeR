@@ -48,7 +48,7 @@ public class FirebaseModel {
 
         mAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        appUserDatabaseReference = firebaseDatabase.getReference("AppUser");
+        appUserDatabaseReference = firebaseDatabase.getReference(AppUser.COLLECTION);
     }
 
     public void getAllMessages(MessagesModel.GetAllMessagesListener callback) {

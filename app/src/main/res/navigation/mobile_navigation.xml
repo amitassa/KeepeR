@@ -44,9 +44,7 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_messagesFragment"
-            app:destination="@id/messagesFragment"
-            app:popUpTo="@id/mobile_navigation"
-            app:popUpToInclusive="true" />
+            app:destination="@id/messagesFragment" />
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment" />

@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,13 +24,13 @@ import com.google.firebase.firestore.auth.User;
 
 import amit.myapp.keeper.Model.Users.AppUserModel;
 import amit.myapp.keeper.Model.Users.UserInputValidation;
+import amit.myapp.keeper.R;
 import amit.myapp.keeper.databinding.FragmentSignupBinding;
 
 public class SignupFragment extends Fragment {
 
     FragmentSignupBinding binding;
     AppUserModel appUserModel;
-    FirebaseAuth mAuth;
     public SignupFragment() {
         // Required empty public constructor
     }
@@ -39,15 +41,12 @@ public class SignupFragment extends Fragment {
 
         binding = FragmentSignupBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
         appUserModel = AppUserModel.instance();
         binding.signupBtn.setOnClickListener((view1) -> {
             hideKeyboard();
             createUser();});
-        // ToDo: set bottom nav bar GONE
         NavDirections loginAction = SignupFragmentDirections.actionSignupFragmentToLoginFragment();
         binding.loginSignupBtn.setOnClickListener(Navigation.createNavigateOnClickListener(loginAction));
-        mAuth = FirebaseAuth.getInstance();
 
         return root;
     }
@@ -59,8 +58,13 @@ public class SignupFragment extends Fragment {
         String fullName = binding.signupFullnameEt.getText().toString();
         String password = binding.signupPasswordEt.getText().toString();
         binding.signupLoading.setVisibility(View.VISIBLE);
-        appUserModel.registerUser(email, password, fullName, ID, 1, ()-> {Navigation.findNavController(binding.getRoot()).popBackStack();
-        binding.signupLoading.setVisibility(View.GONE);});
+        appUserModel.registerUser(email, password, fullName, ID, 1, ()-> {
+            //NavDirections action = SignupFragmentDirections.actionSignupFragmentToLoginFragment();
+            Navigation.findNavController(binding.getRoot()).popBackStack(R.id.loginFragment, false);
+            //Navigation.findNavController(binding.getRoot()).navigate(action);
+            binding.signupLoading.setVisibility(View.GONE);
+
+        });
         //ToDo: on failed..
 
     }

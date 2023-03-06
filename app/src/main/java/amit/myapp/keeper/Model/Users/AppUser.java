@@ -9,11 +9,11 @@ public class AppUser {
     private Integer role;
     private String email;
 
-    static final String COLLECTION = "roles";
-    static final String FULLNAME = "name";
-    static final String ID = "id";
-    static final String ROLE = "role";
-    static final String EMAIL = "email";
+    public static final String COLLECTION = "AppUser";
+    public static final String FULLNAME = "name";
+    public static final String ID = "id";
+    public static final String ROLE = "role";
+    public static final String EMAIL = "email";
 
 
 

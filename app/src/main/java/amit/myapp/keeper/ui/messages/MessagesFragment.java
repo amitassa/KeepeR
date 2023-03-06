@@ -69,6 +69,7 @@ public class MessagesFragment extends Fragment {
             binding.messagesProgressBar.setVisibility(View.GONE);
             if(((MainActivity)getActivity()).getCurrentUser() == null){
                 Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalLoginFragment());
+                //Navigation.findNavController(binding.getRoot()).popBackStack();
             }
         });
     }
