@@ -99,7 +99,6 @@ public class MessagesRecyclerAdapter extends RecyclerView.Adapter<MessageViewHol
     }
     OnItemClickListener listener;
     MessagesModel.DeleteMessageListener deleteMessageListener;
-    MessagesModel.EditMessageListener editMessageListener;
     LayoutInflater inflater;
     List<Message> messageList = new LinkedList<Message>();
     MainActivity mainActivity;

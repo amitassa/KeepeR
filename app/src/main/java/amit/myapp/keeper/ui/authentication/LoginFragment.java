@@ -34,8 +34,6 @@ public class LoginFragment extends Fragment {
 
     private FragmentLoginBinding binding;
     AppUserModel appUserModel;
-    NavHostFragment navHostFragment;
-    NavController navController;
     MainActivity mainActivity;
     View root;
 
@@ -48,7 +46,6 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         root = binding.getRoot();
-        //navHostFragment = root.findViewById(R.id.nav_host_fragment_activity_main);
         appUserModel = AppUserModel.instance();
         mainActivity = ((MainActivity) getActivity());
         binding.loginSigninBtn.setOnClickListener((view) -> {
@@ -67,8 +64,6 @@ public class LoginFragment extends Fragment {
         AppUser user = mainActivity.getCurrentUser();
         mainActivity.findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
         if (user != null){
-            Log.d("user", user.getFullName());
-            //getActivity().getFragmentManager().popBackStack();
             goToMessagesFragment();
         }
     }
@@ -95,8 +90,6 @@ public class LoginFragment extends Fragment {
                 mainActivity.updateCurrentUser();
                 mainActivity.setHelloUser();
                 goToMessagesFragment();
-                //getActivity().getFragmentManager().popBackStack();
-
             }
 
             @Override
@@ -110,11 +103,8 @@ public class LoginFragment extends Fragment {
 
     private void goToMessagesFragment(){
         NavDirections action = LoginFragmentDirections.actionLoginFragmentToMessagesFragment();
-        Navigation.findNavController(this.getView()).navigate(action);
-        //MessagesFragment messagesFragment = new MessagesFragment();
-        //mainActivity.getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, MessagesFragment.class, null).commit();
+        Navigation.findNavController(binding.getRoot()).navigate(action);
         mainActivity.findViewById(R.id.bottom_nav_bar).setVisibility(View.VISIBLE);
-
     }
 
     private void showError(String message){

@@ -61,9 +61,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (currentUser == null){
-            navController.navigate(R.id.loginFragment);
-        }
         updateCurrentUser();
     }
 
