@@ -13,7 +13,7 @@ app:layout_constraintTop_toTopOf="parent">
         android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@drawable/add_icon" />
 
 <ImageView
     android:id="@+id/messages_bar_title_icon"
