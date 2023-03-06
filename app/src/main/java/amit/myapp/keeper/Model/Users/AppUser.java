@@ -1,9 +1,10 @@
 package amit.myapp.keeper.Model.Users;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AppUser {
+public class AppUser implements Serializable {
     private String fullName;
     private String id;
     private Integer role;

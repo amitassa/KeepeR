@@ -100,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.top_app_bar_logout:
                     logOutUser();
                     return true;
+                case R.id.top_app_bar_profile:
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user", this.currentUser);
+                    navController.navigate(R.id.profileFragment, bundle);
+                    return true;
             }
             return false;
         });

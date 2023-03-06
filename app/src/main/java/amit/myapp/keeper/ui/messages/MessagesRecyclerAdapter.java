@@ -71,6 +71,7 @@ class MessageViewHolder extends RecyclerView.ViewHolder{
                 showNoPermissionError();
                 return;
             }
+            //ToDo: safe args
             NavDirections action = MessagesFragmentDirections.actionMessagesFragmentToEditMessageFragment(message);
             Navigation.findNavController(itemView).navigate(action);
         });

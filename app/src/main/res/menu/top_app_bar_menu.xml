@@ -3,6 +3,9 @@
     android:color="#2F8B9E">
 
     <item
+        android:id="@+id/top_app_bar_profile"
+        android:title="פרופיל" />
+    <item
         android:id="@+id/top_app_bar_logout"
         android:title="התנתק" />
 </menu>
