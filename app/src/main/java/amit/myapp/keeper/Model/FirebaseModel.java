@@ -116,7 +116,7 @@ public class FirebaseModel {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    AppUser user = new AppUser(fullName, ID, email, role, "");
+                    AppUser user = new AppUser(fullName, ID, email, role, null);
                     appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).setValue(user).
                             addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

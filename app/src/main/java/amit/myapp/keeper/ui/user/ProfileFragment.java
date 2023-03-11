@@ -134,7 +134,8 @@ public class ProfileFragment extends Fragment {
                 if (url != null){
                     user.setAvatarUrl(url);
                 }
-                appUserModel.updateUser(user, () -> {Navigation.findNavController(binding.getRoot()).popBackStack();
+                appUserModel.updateUser(user, () -> {
+                    navigateAfterUpdate();
 //            NavDirections action = ProfileFragmentDirections.actionGlobalProfileFragment();
 //            Navigation.findNavController(binding.getRoot()).navigate(action);
                 });
@@ -142,11 +143,11 @@ public class ProfileFragment extends Fragment {
             }
         else {
             appUserModel.updateUser(user, () -> {
-                ((MainActivity)getActivity()).updateCurrentUser();
-                Navigation.findNavController(binding.getRoot()).popBackStack();});
+                navigateAfterUpdate();});
         }
-
-
-
+    }
+    private void navigateAfterUpdate(){
+        ((MainActivity)getActivity()).updateCurrentUser();
+        Navigation.findNavController(binding.getRoot()).popBackStack();
     }
 }

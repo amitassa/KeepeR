@@ -34,8 +34,8 @@ public class AppUser implements Serializable {
         String fullName = (String)json.get(FULLNAME);
         Integer role = (Integer) json.get(ROLE);
         String email = (String)json.get(EMAIL);
-        String avatarUrl = (String) json.get(AVATAR_URL);
-        AppUser appUser = new AppUser(fullName, id, email, role, avatarUrl);
+        String avatar_url = (String) json.get(AVATAR_URL);
+        AppUser appUser = new AppUser(fullName, id, email, role, avatar_url);
         return appUser;
     }
 
@@ -84,10 +84,10 @@ public class AppUser implements Serializable {
     }
 
     public String getAvatarUrl() {
-        return avatarurl;
+        return this.avatarurl;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarurl = avatarUrl;
+    public void setAvatarUrl(String avatarurl) {
+        this.avatarurl = avatarurl;
     }
 }
