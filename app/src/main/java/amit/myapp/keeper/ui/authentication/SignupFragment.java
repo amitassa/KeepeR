@@ -22,6 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.auth.User;
 
+import amit.myapp.keeper.MainActivity;
 import amit.myapp.keeper.Model.Users.AppUserModel;
 import amit.myapp.keeper.Model.Users.UserInputValidation;
 import amit.myapp.keeper.R;
@@ -31,6 +32,7 @@ public class SignupFragment extends Fragment {
 
     FragmentSignupBinding binding;
     AppUserModel appUserModel;
+    MainActivity mainActivity;
     public SignupFragment() {
         // Required empty public constructor
     }
@@ -47,7 +49,7 @@ public class SignupFragment extends Fragment {
             createUser();});
         NavDirections loginAction = SignupFragmentDirections.actionSignupFragmentToLoginFragment();
         binding.loginSignupBtn.setOnClickListener(Navigation.createNavigateOnClickListener(loginAction));
-
+        mainActivity = (MainActivity) getActivity();
         return root;
     }
 
@@ -59,9 +61,11 @@ public class SignupFragment extends Fragment {
         String password = binding.signupPasswordEt.getText().toString();
         binding.signupLoading.setVisibility(View.VISIBLE);
         appUserModel.registerUser(email, password, fullName, ID, 1, ()-> {
-            //NavDirections action = SignupFragmentDirections.actionSignupFragmentToLoginFragment();
             Navigation.findNavController(binding.getRoot()).popBackStack(R.id.loginFragment, false);
-            //Navigation.findNavController(binding.getRoot()).navigate(action);
+            mainActivity.updateCurrentUser();
+            mainActivity.setHelloUser();
+            NavDirections action = SignupFragmentDirections.actionGlobalMessagesFragment();
+            Navigation.findNavController(binding.getRoot()).navigate(action);
             binding.signupLoading.setVisibility(View.GONE);
 
         });
