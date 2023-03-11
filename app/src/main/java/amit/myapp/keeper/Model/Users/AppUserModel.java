@@ -49,6 +49,12 @@ public class AppUserModel {
         firebaseModel.logOutUser(listener);
     }
 
+    public interface BasicListener{
+        void onComplete();
+    }
 
+    public void updateUser(AppUser user, BasicListener listener){
+        firebaseModel.updateUser(user, listener);
+    }
 
 }

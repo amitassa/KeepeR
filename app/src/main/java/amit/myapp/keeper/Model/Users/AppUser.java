@@ -10,18 +10,23 @@ public class AppUser implements Serializable {
     private Integer role;
     private String email;
 
+    private String avatarurl;
+
     public static final String COLLECTION = "AppUser";
-    public static final String FULLNAME = "name";
+    public static final String FULLNAME = "fullName";
     public static final String ID = "id";
     public static final String ROLE = "role";
     public static final String EMAIL = "email";
+    public static final String AVATAR_URL = "avatarurl";
+
 
 
 
     public AppUser() {}
 
-    public AppUser(String fullName, String id, String email, Integer role){
+    public AppUser(String fullName, String id, String email, Integer role, String avatarurl){
         this.fullName = fullName; this.role = role; this.id = id; this.email = email;
+        this.avatarurl = avatarurl;
     }
 
     public static AppUser fromJson(Map<String,Object> json){
@@ -29,7 +34,8 @@ public class AppUser implements Serializable {
         String fullName = (String)json.get(FULLNAME);
         Integer role = (Integer) json.get(ROLE);
         String email = (String)json.get(EMAIL);
-        AppUser appUser = new AppUser(fullName, id, email, role);
+        String avatarUrl = (String) json.get(AVATAR_URL);
+        AppUser appUser = new AppUser(fullName, id, email, role, avatarUrl);
         return appUser;
     }
 
@@ -39,6 +45,7 @@ public class AppUser implements Serializable {
         json.put(FULLNAME, getFullName());
         json.put(EMAIL, getEmail());
         json.put(ROLE, getRole());
+        json.put(AVATAR_URL, getAvatarUrl());
         return json;
     }
 
@@ -74,5 +81,13 @@ public class AppUser implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAvatarUrl() {
+        return avatarurl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarurl = avatarUrl;
     }
 }

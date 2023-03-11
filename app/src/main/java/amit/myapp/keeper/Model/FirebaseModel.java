@@ -1,4 +1,6 @@
 package amit.myapp.keeper.Model;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -20,12 +22,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import amit.myapp.keeper.Model.Images.ImagesModel;
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
 import amit.myapp.keeper.Model.Roles.Role;
@@ -39,6 +46,9 @@ public class FirebaseModel {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference appUserDatabaseReference;
 
+    FirebaseStorage storage;
+    StorageReference storageRef;
+
     public FirebaseModel() {
         db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
@@ -49,6 +59,8 @@ public class FirebaseModel {
         mAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         appUserDatabaseReference = firebaseDatabase.getReference(AppUser.COLLECTION);
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
     }
 
     public void getAllMessages(MessagesModel.GetAllMessagesListener callback) {
@@ -104,7 +116,7 @@ public class FirebaseModel {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    AppUser user = new AppUser(fullName, ID, email, role);
+                    AppUser user = new AppUser(fullName, ID, email, role, "");
                     appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).setValue(user).
                             addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -161,4 +173,47 @@ public class FirebaseModel {
         mAuth.signOut();
         listener.onComplete();
     }
+
+    public void updateUser(AppUser user, AppUserModel.BasicListener listener){
+        Map<String,Object> userJson = user.toJson();
+        appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).updateChildren(userJson).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onComplete();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("update", "onFailure: " + e.toString());
+            }
+        });
+    }
+
+    public void uploadUserProfileImage(String name, Bitmap imageBitmap, ImagesModel.Listener<String> listener){
+        StorageReference userProfileImagesRef = storageRef.child("profileImages/" + name + ".jpg");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = userProfileImagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                listener.onComplete(null);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                userProfileImagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        listener.onComplete(uri.toString());
+                    }
+                });
+            }
+        });
+
+    }
+
+
 }

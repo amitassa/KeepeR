@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.user.ProfileFragment">
 
-    <TextView
+    <EditText
         android:id="@+id/profile_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,9 +62,10 @@
 
     <ImageView
         android:id="@+id/profile_picture_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -75,10 +76,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="50dp"
         android:text="חזור"
-        app:layout_constraintEnd_toEndOf="@+id/profile_name_tv"
-        app:layout_constraintStart_toStartOf="@+id/profile_name_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/profile_edit_btn"
         app:layout_constraintTop_toBottomOf="@+id/profile_email_tv" />
+
+    <Button
+        android:id="@+id/profile_edit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:text="ערוך"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_back_btn"
+        app:layout_constraintEnd_toStartOf="@+id/profile_back_btn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/profile_edit_update"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="100dp"
+        android:text="עדכן"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_edit_btn" />
+
+    <ImageButton
+        android:id="@+id/profile_take_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_picture_img"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/profile_gallery_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_gallery"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_picture_img"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
