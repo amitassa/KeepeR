@@ -1,5 +1,8 @@
 package amit.myapp.keeper.ui.user;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -55,8 +58,7 @@ public class ProfileFragment extends Fragment {
         binding.profileEmailTv.setText(user.getEmail());
         binding.profileIdTv.setText(user.getId());
         binding.profileNameTv.setText(user.getFullName());
-
-        //ToDo: set photo here!
-        //binding.profilePictureImg.setImageBitmap(R.drawable.add_icon);
+        Bitmap user = BitmapFactory.decodeResource(getResources(), R.drawable.user);
+        binding.profilePictureImg.setImageBitmap(user);
     }
 }
