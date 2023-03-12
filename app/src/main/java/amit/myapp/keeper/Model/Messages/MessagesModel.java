@@ -2,6 +2,7 @@ package amit.myapp.keeper.Model.Messages;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 
@@ -43,24 +44,34 @@ public class MessagesModel {
 
 
         //get local last update
-//        Long localLastUpdate = Message.getLocalLastUpdate();
-//        firebaseModel.getAllMessagesSince(localLastUpdate, list ->{
-//            Long time = localLastUpdate;
-//            // insert new records into room
-//            for(Message message:list){
-//                localDb.messageDao().insertAll(message);
-//                if (time < message.getDate()){
-//
-//                }
-//            }
-//        });
+        Long localLatestDate = Message.getLocalLatestDate();
+        firebaseModel.getAllMessagesSince(localLatestDate, list ->{
+            executor.execute(() ->{
+                Log.d("firebasereturn", "size" + list.size());
+                Long time = localLatestDate;
+                // insert new records into room
+                for(Message message:list){
+                    localDb.messageDao().insertAll(message);
+                    if (time < message.getDate()){
+                        time = message.getDate();
+                    }
+                }
+                Message.setLocalLatestDate(time);
+
+                List<Message> completeList = localDb.messageDao().getAll();
+                mainHandler.post(() -> {
+                    callback.onComplete(completeList);
+                });
+            });
+
+        });
         // get all updated record from firebase since local last update
 
 
         // update local last update
 
         // return complete list from room
-        firebaseModel.getAllMessages(callback);
+        //firebaseModel.getAllMessages(callback);
     }
 
 
@@ -70,6 +81,7 @@ public class MessagesModel {
     }
 
     public void addMessage(Message message, AddMessageListener listener){
+
         firebaseModel.addMessage(message, listener);
 //        executor.execute(() ->{
 //            Message newMessage = Message.fromJson(message.toJson());
@@ -85,7 +97,15 @@ public class MessagesModel {
     }
 
     public void deleteMessage(Message message, DeleteMessageListener listener){
-        firebaseModel.deleteMessage(message, listener);
+
+        firebaseModel.deleteMessage(message, ()-> {
+                    executor.execute(() -> {
+                        localDb.messageDao().delete(message);
+                        mainHandler.post(() -> {
+                            listener.onComplete();
+                        });
+                    });
+                });
     }
 
     public interface EditMessageListener{

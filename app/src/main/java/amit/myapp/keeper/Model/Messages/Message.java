@@ -1,5 +1,8 @@
 package amit.myapp.keeper.Model.Messages;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -15,6 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import amit.myapp.keeper.Model.Users.AppUser;
+import amit.myapp.keeper.MyApplication;
 
 @Entity
 public class Message implements Serializable {
@@ -39,7 +43,10 @@ public class Message implements Serializable {
     static final String PUBLISHER_ID = "publisherId";
     static final String MESSAGE_ID = "id";
 
-    static final String DATE = "date";
+    public static final String DATE = "date";
+    public static final String LOCAL_LATEST_DATE = "messages_local_latest_date";
+
+
 
     public Message(String content, String title, AppUser publisher){
         this.content = content; this.title = title; this.publisherName = publisher.getFullName(); this.publisherId = publisher.getId();
@@ -64,15 +71,12 @@ public class Message implements Serializable {
         String publisherName = (String) json.get(PUBLISHER_NAME);
         //String date = (String) json.get(DATE);
         String id = (String) json.get(MESSAGE_ID);
+        // Timestamp is firebase module. Change if firebase changed as DB!
         Timestamp time = (Timestamp) json.get(DATE);
         Long date = time.getSeconds();
 
         Message message = new Message(content, title, publisherName, publisherId, date, id);
         return message;
-    }
-
-    public static Long getLocalLastUpdate() {
-        return new Long(0);
     }
 
     public Map<String,Object> toJson(){
@@ -82,11 +86,23 @@ public class Message implements Serializable {
         json.put(PUBLISHER_ID, getPublisherId());
         json.put(PUBLISHER_NAME, getPublisherName());
         //json.put(DATE, getDate());
+        // Change if firebase changed as DB!
         json.put(DATE, FieldValue.serverTimestamp());
         json.put(MESSAGE_ID, getId());
         return json;
     }
 
+    public static Long getLocalLatestDate() {
+        SharedPreferences sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE);
+        return sharedPref.getLong(LOCAL_LATEST_DATE, 0);
+    }
+
+    public static void setLocalLatestDate(Long time) {
+        SharedPreferences sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong(LOCAL_LATEST_DATE,time);
+        editor.commit();
+    }
 
     public String getContent() {
         return content;
