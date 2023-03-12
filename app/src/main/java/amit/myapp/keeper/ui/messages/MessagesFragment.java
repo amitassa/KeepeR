@@ -1,5 +1,6 @@
 package amit.myapp.keeper.ui.messages;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +29,7 @@ public class MessagesFragment extends Fragment {
     private FragmentMessagesBinding binding;
     private MessagesRecyclerAdapter adapter;
     private List<Message> messageList = new LinkedList<>();
+    private MessagesViewModel messagesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class MessagesFragment extends Fragment {
         binding.messagesRecyclerView.setHasFixedSize(true);
         binding.messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         // Create the adapter with a delete message listener
-        adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messageList, ()->{reloadData();}, (MainActivity) getActivity());
+        adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messagesViewModel.getData(), ()->{reloadData();}, (MainActivity) getActivity());
         binding.messagesRecyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(pos -> {
@@ -48,6 +51,12 @@ public class MessagesFragment extends Fragment {
         binding.getRoot().findViewById(R.id.messages_bar_add_btn).setOnClickListener(Navigation.createNavigateOnClickListener(action));
 
         return root;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        messagesViewModel = new ViewModelProvider(this).get(MessagesViewModel.class);
     }
 
     @Override
@@ -64,8 +73,8 @@ public class MessagesFragment extends Fragment {
     public void reloadData(){
         binding.messagesProgressBar.setVisibility(View.VISIBLE);
         MessagesModel.instance().getAllMessages((list)->{
-            messageList = list;
-            adapter.setData(messageList);
+            messagesViewModel.setData(list);
+            adapter.setData(messagesViewModel.getData());
             binding.messagesProgressBar.setVisibility(View.GONE);
             if(((MainActivity)getActivity()).getCurrentUser() == null){
                 Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalLoginFragment());

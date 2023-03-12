@@ -1,6 +1,7 @@
 package amit.myapp.keeper.Model.Messages;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import amit.myapp.keeper.Model.FirebaseModel;
 
@@ -21,6 +22,13 @@ public class MessagesModel {
 
     public void getAllMessages(GetAllMessagesListener callback) {
         firebaseModel.getAllMessages(callback);
+    }
+
+    public List<Message> getAllMessages(){
+        AtomicReference<List<Message>> data = new AtomicReference<>();
+        firebaseModel.getAllMessages((list) -> {
+            data.set(list);});
+        return data.get();
     }
 
     public interface AddMessageListener{
