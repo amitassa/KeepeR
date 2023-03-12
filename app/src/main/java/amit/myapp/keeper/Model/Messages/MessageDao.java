@@ -13,6 +13,10 @@ public interface MessageDao {
     @Query("select * from Message")
     List<Message> getAll();
 
+
+    @Query("select * from Message where id = :messageID")
+    Message getMessageById(String messageID);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Message... messages);
 

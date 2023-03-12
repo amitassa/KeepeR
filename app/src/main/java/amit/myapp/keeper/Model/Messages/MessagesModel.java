@@ -1,13 +1,25 @@
 package amit.myapp.keeper.Model.Messages;
 
+import android.os.Handler;
+import android.os.Looper;
+
+import androidx.core.os.HandlerCompat;
+
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
+import amit.myapp.keeper.Model.AppLocalDb;
+import amit.myapp.keeper.Model.AppLocalRepository;
 import amit.myapp.keeper.Model.FirebaseModel;
 
 public class MessagesModel {
     private static final MessagesModel _instance = new MessagesModel();
     private FirebaseModel firebaseModel = new FirebaseModel();
+    AppLocalRepository localDb = AppLocalDb.getAppDb();
+    private Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
+    private Executor executor = Executors.newSingleThreadExecutor();
 
     public static MessagesModel instance(){
         return _instance;
@@ -21,8 +33,14 @@ public class MessagesModel {
     }
 
     public void getAllMessages(GetAllMessagesListener callback) {
+        executor.execute(() -> {
+            List<Message> allMessages = localDb.messageDao().getAll();
+            mainHandler.post(() ->{
+                callback.onComplete(allMessages);
+            });
+        });
+        //callback.onComplete();
         //get local last update
-
 //        Long localLastUpdate = Message.getLocalLastUpdate();
 //        firebaseModel.getAllMessagesSince(localLastUpdate, list ->{
 //            for(Message message:list){
@@ -36,8 +54,9 @@ public class MessagesModel {
         // update local last update
 
         // return complete list from room
-        firebaseModel.getAllMessages(callback);
+        //firebaseModel.getAllMessages(callback);
     }
+
 
 
     public interface AddMessageListener{

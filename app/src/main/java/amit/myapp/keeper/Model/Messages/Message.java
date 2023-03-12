@@ -20,6 +20,7 @@ public class Message implements Serializable {
     private String publisherName = "";
 
     @PrimaryKey
+    @NonNull
     private String id = "";
     private String title="";
 
@@ -33,7 +34,7 @@ public class Message implements Serializable {
     static final String CONTENT = "content";
     static final String PUBLISHER_NAME = "publisherName";
     static final String PUBLISHER_ID = "publisherId";
-    static final String MESSAGE_ID = "messageID";
+    static final String MESSAGE_ID = "id";
 
     static final String DATE = "date";
 
