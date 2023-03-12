@@ -33,28 +33,34 @@ public class MessagesModel {
     }
 
     public void getAllMessages(GetAllMessagesListener callback) {
-        executor.execute(() -> {
-            List<Message> allMessages = localDb.messageDao().getAll();
-            mainHandler.post(() ->{
-                callback.onComplete(allMessages);
-            });
-        });
-        //callback.onComplete();
+//      for local db only
+        //        executor.execute(() -> {
+//            List<Message> allMessages = localDb.messageDao().getAll();
+//            mainHandler.post(() ->{
+//                callback.onComplete(allMessages);
+//            });
+//        });
+
+
         //get local last update
 //        Long localLastUpdate = Message.getLocalLastUpdate();
 //        firebaseModel.getAllMessagesSince(localLastUpdate, list ->{
+//            Long time = localLastUpdate;
+//            // insert new records into room
 //            for(Message message:list){
-//                localDb.studentDao().insertAll(message);
+//                localDb.messageDao().insertAll(message);
+//                if (time < message.getDate()){
+//
+//                }
 //            }
 //        });
         // get all updated record from firebase since local last update
 
-        // insert new records into room
 
         // update local last update
 
         // return complete list from room
-        //firebaseModel.getAllMessages(callback);
+        firebaseModel.getAllMessages(callback);
     }
 
 
@@ -64,14 +70,14 @@ public class MessagesModel {
     }
 
     public void addMessage(Message message, AddMessageListener listener){
-        //firebaseModel.addMessage(message, listener);
-        executor.execute(() ->{
-            Message newMessage = Message.fromJson(message.toJson());
-            localDb.messageDao().insertAll(newMessage);
-            mainHandler.post(() -> {
-                listener.onComplete();
-            });
-        });
+        firebaseModel.addMessage(message, listener);
+//        executor.execute(() ->{
+//            Message newMessage = Message.fromJson(message.toJson());
+//            localDb.messageDao().insertAll(newMessage);
+//            mainHandler.post(() -> {
+//                listener.onComplete();
+//            });
+//        });
     }
 
     public interface DeleteMessageListener{

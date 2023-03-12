@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,7 +28,7 @@ public class Message implements Serializable {
     private String title="";
 
     private String content="";
-    private String date = "";
+    private Long date;
 
 
     public Message() {}
@@ -44,11 +47,12 @@ public class Message implements Serializable {
 
     public Message(String content, String title, String publisherName, String publisherId, String id){
         this.content = content; this.title = title; this.publisherName = publisherName; this.publisherId = publisherId;
-        this.date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+        //this.date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+        //this.date = FieldValue.serverTimestamp();
         this.id = id;
     }
 
-    public Message(String content, String title, String publisherName, String publisherId, String date, String id){
+    public Message(String content, String title, String publisherName, String publisherId, Long date, String id){
         this.content = content; this.title = title; this.publisherName = publisherName; this.publisherId = publisherId;
         this.date = date; this.id = id;
     }
@@ -58,8 +62,10 @@ public class Message implements Serializable {
         String title = (String)json.get(TITLE);
         String publisherId = (String) json.get(PUBLISHER_ID);
         String publisherName = (String) json.get(PUBLISHER_NAME);
-        String date = (String) json.get(DATE);
+        //String date = (String) json.get(DATE);
         String id = (String) json.get(MESSAGE_ID);
+        Timestamp time = (Timestamp) json.get(DATE);
+        Long date = time.getSeconds();
 
         Message message = new Message(content, title, publisherName, publisherId, date, id);
         return message;
@@ -75,7 +81,8 @@ public class Message implements Serializable {
         json.put(TITLE, getTitle());
         json.put(PUBLISHER_ID, getPublisherId());
         json.put(PUBLISHER_NAME, getPublisherName());
-        json.put(DATE, getDate());
+        //json.put(DATE, getDate());
+        json.put(DATE, FieldValue.serverTimestamp());
         json.put(MESSAGE_ID, getId());
         return json;
     }
@@ -113,11 +120,11 @@ public class Message implements Serializable {
         this.publisherId = publisherId;
     }
 
-    public String getDate() {
+    public Long getDate() {
         return this.date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

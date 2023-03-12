@@ -1,6 +1,7 @@
 package amit.myapp.keeper.ui.messages;
 
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,9 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.Timestamp;
+
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -90,7 +94,9 @@ class MessageViewHolder extends RecyclerView.ViewHolder{
         titleTv.setText(message.getTitle());
         contentTv.setText(message.getContent());
         publisherTv.setText(message.getPublisherName());
-        dateTv.setText(message.getDate());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(message.getDate()*1000);
+        dateTv.setText(dateString);
     }
 }
 
