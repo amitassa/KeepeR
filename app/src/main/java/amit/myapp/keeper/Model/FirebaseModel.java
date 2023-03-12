@@ -71,8 +71,8 @@ public class FirebaseModel {
                 if (task.isSuccessful()) {
                     QuerySnapshot jsonsList = task.getResult();
                     for (DocumentSnapshot json : jsonsList) {
-                        String id = json.getId();
-                        Message message = Message.fromJson(json.getData(), id);
+                        //String id = json.getId();
+                        Message message = Message.fromJson(json.getData());//, id);
                         messageList.add(message);
                     }
                 }
@@ -80,9 +80,26 @@ public class FirebaseModel {
             }
         });
     }
+//    public void getAllMessagesSince(Long Since, MessagesModel.GetAllMessagesListener callback) {
+//        db.collection(Message.COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                List<Message> messageList = new LinkedList<>();
+//                if (task.isSuccessful()) {
+//                    QuerySnapshot jsonsList = task.getResult();
+//                    for (DocumentSnapshot json : jsonsList) {
+//                        String id = json.getId();
+//                        Message message = Message.fromJson(json.getData(), id);
+//                        messageList.add(message);
+//                    }
+//                }
+//                callback.onComplete(messageList);
+//            }
+//        });
+//    }
 
     public void addMessage(Message message, MessagesModel.AddMessageListener listener) {
-        db.collection(Message.COLLECTION).document().set(message.toJson()).
+        db.collection(Message.COLLECTION).document(message.getId()).set(message.toJson()).
                 addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.UUID;
+
 import amit.myapp.keeper.MainActivity;
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
@@ -60,9 +62,10 @@ public class AddMessageFragment extends Fragment {
     }
 
     private void publishMessage(View view){
+        UUID uuid = UUID.randomUUID();
         String title = binding.addMessageFragmentMessageTitle.getText().toString();
         String content = binding.addMessageFragmentMessageContent.getText().toString();
-        Message message = new Message(content, title, currentUser.getFullName(), currentUser.getId());
+        Message message = new Message(content, title, currentUser.getFullName(), currentUser.getId(), uuid.toString());
         MessagesModel.instance().addMessage(message, ()-> {Navigation.findNavController(view).popBackStack();});
     }
 }

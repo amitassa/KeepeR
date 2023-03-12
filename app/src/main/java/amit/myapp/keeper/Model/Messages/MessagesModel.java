@@ -21,15 +21,24 @@ public class MessagesModel {
     }
 
     public void getAllMessages(GetAllMessagesListener callback) {
+        //get local last update
+
+//        Long localLastUpdate = Message.getLocalLastUpdate();
+//        firebaseModel.getAllMessagesSince(localLastUpdate, list ->{
+//            for(Message message:list){
+//                localDb.studentDao().insertAll(message);
+//            }
+//        });
+        // get all updated record from firebase since local last update
+
+        // insert new records into room
+
+        // update local last update
+
+        // return complete list from room
         firebaseModel.getAllMessages(callback);
     }
 
-    public List<Message> getAllMessages(){
-        AtomicReference<List<Message>> data = new AtomicReference<>();
-        firebaseModel.getAllMessages((list) -> {
-            data.set(list);});
-        return data.get();
-    }
 
     public interface AddMessageListener{
         void onComplete();
