@@ -64,7 +64,14 @@ public class MessagesModel {
     }
 
     public void addMessage(Message message, AddMessageListener listener){
-        firebaseModel.addMessage(message, listener);
+        //firebaseModel.addMessage(message, listener);
+        executor.execute(() ->{
+            Message newMessage = Message.fromJson(message.toJson());
+            localDb.messageDao().insertAll(newMessage);
+            mainHandler.post(() -> {
+                listener.onComplete();
+            });
+        });
     }
 
     public interface DeleteMessageListener{
