@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.firebase.Timestamp;
@@ -35,7 +36,8 @@ public class Message implements Serializable {
     private Long date;
 
 
-    public Message() {}
+    //ToDo: maybe this screw the local DB
+    //public Message() {}
     public static final String COLLECTION = "messages";
     static final String TITLE = "title";
     static final String CONTENT = "content";
@@ -47,11 +49,12 @@ public class Message implements Serializable {
     public static final String LOCAL_LATEST_DATE = "messages_local_latest_date";
 
 
-
+    @Ignore
     public Message(String content, String title, AppUser publisher){
         this.content = content; this.title = title; this.publisherName = publisher.getFullName(); this.publisherId = publisher.getId();
     }
 
+    @Ignore
     public Message(String content, String title, String publisherName, String publisherId, String id){
         this.content = content; this.title = title; this.publisherName = publisherName; this.publisherId = publisherId;
         //this.date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(new Date());

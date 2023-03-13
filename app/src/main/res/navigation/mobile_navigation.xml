@@ -5,11 +5,6 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/loginFragment">
 
-    <fragment
-        android:id="@+id/incidentsFragment"
-        android:name="amit.myapp.keeper.ui.Incidents.IncidentsFragment"
-        android:label="@string/title_incidents"
-        tools:layout="@layout/fragment_incidents" />
 
     <fragment
         android:id="@+id/messagesFragment"
@@ -73,4 +68,50 @@
             android:defaultValue="@null" />
     </fragment>
     <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment" />
+
+
+    <fragment
+        android:id="@+id/selfIncidentsFragment"
+        android:name="amit.myapp.keeper.ui.Incidents.SelfIncidentsFragment"
+        android:label="fragment_self_incidents"
+        tools:layout="@layout/fragment_self_incidents" >
+        <action
+            android:id="@+id/action_selfIncidentsFragment_to_addIncidentFragment"
+            app:destination="@id/addIncidentFragment" />
+        <action
+            android:id="@+id/action_selfIncidentsFragment_to_editIncidentFragment"
+            app:destination="@id/editIncidentFragment" />
+    </fragment>
+
+    <action android:id="@+id/action_global_incidentsFragment" app:destination="@id/incidentsFragment" />
+    <action android:id="@+id/action_global_selfIncidentsFragment" app:destination="@id/selfIncidentsFragment" />
+
+    <fragment
+        android:id="@+id/addIncidentFragment"
+        android:name="amit.myapp.keeper.ui.Incidents.AddIncidentFragment"
+        android:label="fragment_add_incident"
+        tools:layout="@layout/fragment_add_incident" />
+
+    <fragment
+        android:id="@+id/incidentsFragment"
+        android:name="amit.myapp.keeper.ui.Incidents.IncidentsFragment"
+        android:label="fragment_incidents"
+        tools:layout="@layout/fragment_incidents">
+        <action
+            android:id="@+id/action_incidentsFragment_to_addIncidentFragment"
+            app:destination="@id/addIncidentFragment" />
+        <action
+            android:id="@+id/action_incidentsFragment_to_editIncidentFragment"
+            app:destination="@id/editIncidentFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_addIncidentFragment" app:destination="@id/addIncidentFragment" />
+    <fragment
+        android:id="@+id/editIncidentFragment"
+        android:name="amit.myapp.keeper.ui.Incidents.EditIncidentFragment"
+        android:label="fragment_edit_incident"
+        tools:layout="@layout/fragment_edit_incident" >
+        <argument
+            android:name="incident"
+            app:argType="amit.myapp.keeper.Model.Incidents.Incident" />
+    </fragment><action android:id="@+id/action_global_editIncidentFragment" app:destination="@id/editIncidentFragment"/>
 </navigation>

@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_incidents" />
 
+    <item
+        android:id="@+id/selfIncidentsFragment"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="תקלות שפתחתי" />
+
 </menu>

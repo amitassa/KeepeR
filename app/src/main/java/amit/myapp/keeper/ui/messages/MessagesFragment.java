@@ -28,7 +28,7 @@ public class MessagesFragment extends Fragment {
 
     private FragmentMessagesBinding binding;
     private MessagesRecyclerAdapter adapter;
-    private List<Message> messageList = new LinkedList<>();
+    //private List<Message> messageList = new LinkedList<>();
     private MessagesViewModel messagesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

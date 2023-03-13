@@ -4,16 +4,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
+import amit.myapp.keeper.Model.Incidents.Incident;
+import amit.myapp.keeper.Model.Incidents.IncidentsModel;
+
 public class IncidentsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private LiveData<List<Incident>> data = IncidentsModel.instance().getAllIncidents();
 
     public IncidentsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<Incident>> getData() {
+        return data;
     }
 }

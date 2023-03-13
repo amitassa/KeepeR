@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Map;
 
 import amit.myapp.keeper.Model.Images.ImagesModel;
+import amit.myapp.keeper.Model.Incidents.Incident;
+import amit.myapp.keeper.Model.Incidents.IncidentsModel;
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
 import amit.myapp.keeper.Model.Roles.Role;
@@ -132,7 +134,43 @@ public class FirebaseModel {
                 });
     }
 
-    public void registerUser(String email, String password, String fullName, String ID, int role, AppUserModel.RegisterUserListener listener) {
+    public void getAllIncidentsSince(Long Since, IncidentsModel.IncidentListener<List<Incident>> callback) {
+        db.collection(Incident.COLLECTION)
+                .whereGreaterThanOrEqualTo(Message.DATE, new Timestamp(Since, 0))
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<Incident> incidentList = new LinkedList<>();
+                    if (task.isSuccessful()) {
+                        QuerySnapshot jsonsList = task.getResult();
+                        for (DocumentSnapshot json : jsonsList) {
+                            //String id = json.getId();
+                            Incident incident = Incident.fromJson(json.getData());//, id);
+                            incidentList.add(incident);
+                        }
+                    }
+                    callback.onComplete(incidentList);
+                });
+    }
+
+    public void addIncident(Incident incident, IncidentsModel.IncidentListener<Void> listener) {
+        db.collection(Incident.COLLECTION).document(incident.getId()).set(incident.toJson())
+                .addOnCompleteListener(task -> listener.onComplete(null));
+    }
+
+    public void deleteIncident(Incident incident, IncidentsModel.IncidentListener<Void> listener) {
+        db.collection(Incident.COLLECTION).document(incident.getId()).delete()
+                .addOnCompleteListener(task -> listener.onComplete(null));
+    }
+
+    public void editIncident(Incident incident, IncidentsModel.IncidentListener<Void> listener) {
+        db.collection(Incident.COLLECTION).document(incident.getId()).set(incident.toJson())
+                .addOnCompleteListener(task -> listener.onComplete(null));
+    }
+
+
+
+
+        public void registerUser(String email, String password, String fullName, String ID, int role, AppUserModel.RegisterUserListener listener) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -150,6 +188,7 @@ public class FirebaseModel {
             }
         });
     }
+
 
     public void loginUser(String email, String password, AppUserModel.LoginUserListener listener) {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -237,4 +276,28 @@ public class FirebaseModel {
     }
 
 
+    public void uploadIncidentImage(String name, Bitmap imageBitmap, IncidentsModel.IncidentListener<String> listener) {
+        StorageReference incidentsImagesRef = storageRef.child("incidentsImages/" + name + ".jpg");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = incidentsImagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                listener.onComplete(null);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                incidentsImagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        listener.onComplete(uri.toString());
+                    }
+                });
+            }
+        });
+    }
 }
