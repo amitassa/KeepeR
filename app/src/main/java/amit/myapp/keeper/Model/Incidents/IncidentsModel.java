@@ -61,16 +61,19 @@ public class IncidentsModel {
         Long localLatestDate = Incident.getLocalLatestDate();
 
         firebaseModel.getAllIncidentsSince(localLatestDate, list->{
-            Log.d("firebasereturn", "size" + list.size());
-            Long time = localLatestDate;
-            for(Incident incident:list){
-                localDb.incidentDao().insertAll(incident);
-                if(time < incident.getDate()){
-                    time = incident.getDate();
+            executor.execute(()->{
+                Log.d("firebasereturn", "size" + list.size());
+                Long time = localLatestDate;
+                for(Incident incident:list){
+                    localDb.incidentDao().insertAll(incident);
+                    if(time < incident.getDate()){
+                        time = incident.getDate();
+                    }
                 }
-            }
-            Incident.setLocalLatestDate(time);
-            EventIncidentsListLoadingState.postValue(LoadingState.NOT_LOADING);
+                Incident.setLocalLatestDate(time);
+                EventIncidentsListLoadingState.postValue(LoadingState.NOT_LOADING);
+            });
+           
         });
     }
 

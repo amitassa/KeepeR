@@ -1,18 +1,12 @@
 package amit.myapp.keeper;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.Toast;
+
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,10 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 import amit.myapp.keeper.Model.Users.AppUser;
 import amit.myapp.keeper.Model.Users.AppUserModel;
 import amit.myapp.keeper.databinding.ActivityMainBinding;
-import amit.myapp.keeper.ui.Incidents.IncidentsFragment;
-import amit.myapp.keeper.ui.authentication.LoginFragment;
-import amit.myapp.keeper.ui.messages.MessagesFragment;
-import amit.myapp.keeper.ui.messages.MessagesFragmentDirections;
+
 
 public class MainActivity extends AppCompatActivity {
 

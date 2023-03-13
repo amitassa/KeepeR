@@ -102,7 +102,8 @@ public class ProfileFragment extends Fragment {
         binding.profileNameTv.setText(user.getFullName());
 
         if (user.getAvatarUrl()!= null && !user.getAvatarUrl().equals("")){
-            Picasso.get().load(user.getAvatarUrl()).placeholder(R.drawable.user).into(binding.profilePictureImg);
+            Picasso.get().load(user.getAvatarUrl()).placeholder(R.drawable.user)
+                    .into(binding.profilePictureImg);
         }
         else {
             binding.profilePictureImg.setImageResource(R.drawable.user);

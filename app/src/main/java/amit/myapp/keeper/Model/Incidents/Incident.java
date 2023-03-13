@@ -33,7 +33,7 @@ public class Incident implements Serializable {
     private String content="";
     private String photourl="";
     private Long date;
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     public Incident(String id, String title, String publisherId,
                     String publisherName, String photourl, String content,

@@ -16,8 +16,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/incidents_row_include">
@@ -66,11 +65,20 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageButton
-                android:id="@+id/add_incident_fragment_incident_img"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/gallery_icon"></ImageButton>
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/add_incident_fragment_incident_img"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/gallery_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></ImageButton>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -88,7 +96,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/addIncidentFragment_cancel_btn"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/addIncidentFragment_cancel_btn"
@@ -100,7 +109,8 @@
                     android:text="ביטול"
                     app:cornerRadius="6dp"
                     app:layout_constraintBottom_toBottomOf="@+id/addIncidentFragment_publish_btn"
-                    app:layout_constraintStart_toEndOf="@+id/addIncidentFragment_publish_btn" />
+                    app:layout_constraintStart_toEndOf="@+id/addIncidentFragment_publish_btn"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

@@ -14,6 +14,8 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
@@ -94,6 +96,10 @@ class IncidentViewHolder extends RecyclerView.ViewHolder {
         publisherTv.setText(incident.getPublisherName());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = formatter.format(incident.getDate() * 1000);
+        if (incident.getPhotourl() != null && !incident.getPhotourl().isEmpty()){
+            //ToDo: change placeholder
+            Picasso.get().load(incident.getPhotourl()).placeholder(R.drawable.gallery_icon).into(incidentImg);
+        }
         dateTv.setText(dateString);
     }
 }
