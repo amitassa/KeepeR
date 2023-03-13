@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -22,6 +23,13 @@ public class MessagesModel {
     AppLocalRepository localDb = AppLocalDb.getAppDb();
     private Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
     private Executor executor = Executors.newSingleThreadExecutor();
+
+    public enum LoadingState{
+        LOADING,
+        NOT_LOADING
+    }
+    final public MutableLiveData<LoadingState> EventMessageListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
+
 
     public static MessagesModel instance(){
         return _instance;
@@ -44,6 +52,7 @@ public class MessagesModel {
     }
 
     public void refreshAllMessages() {
+        EventMessageListLoadingState.setValue(LoadingState.LOADING);
 
         //get local last update
         Long localLatestDate = Message.getLocalLatestDate();
@@ -59,6 +68,7 @@ public class MessagesModel {
                     }
                 }
                 Message.setLocalLatestDate(time);
+                EventMessageListLoadingState.postValue(LoadingState.NOT_LOADING);
             });
 
         });

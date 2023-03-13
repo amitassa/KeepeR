@@ -46,13 +46,21 @@ public class MessagesFragment extends Fragment {
         adapter.setOnItemClickListener(pos -> {
             // ToDo: add user page maybe
         });
+        binding.messagesProgressBar.setVisibility(View.GONE);
 
         NavDirections action = MessagesFragmentDirections.actionGlobalAddMessageFragment();
         binding.getRoot().findViewById(R.id.messages_bar_add_btn).setOnClickListener(Navigation.createNavigateOnClickListener(action));
 
         messagesViewModel.getData().observe(getViewLifecycleOwner(), list ->{
             adapter.setData(list);
-            binding.messagesProgressBar.setVisibility(View.GONE);
+        });
+
+        MessagesModel.instance().EventMessageListLoadingState.observe(getViewLifecycleOwner(), status ->{
+            binding.messagesSwipeRefresh.setRefreshing(status == MessagesModel.LoadingState.LOADING);
+        });
+
+        binding.messagesSwipeRefresh.setOnRefreshListener(()->{
+            reloadData();
         });
         return root;
     }
@@ -79,7 +87,7 @@ public class MessagesFragment extends Fragment {
             Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalLoginFragment());
             return;
         }
-        binding.messagesProgressBar.setVisibility(View.VISIBLE);
+        //binding.messagesProgressBar.setVisibility(View.VISIBLE);
         MessagesModel.instance().refreshAllMessages();
 //        MessagesModel.instance().getAllMessages((list)->{
 //            messagesViewModel.setData(list);
