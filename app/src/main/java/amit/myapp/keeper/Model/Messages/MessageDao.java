@@ -1,5 +1,6 @@
 package amit.myapp.keeper.Model.Messages;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -11,7 +12,7 @@ import java.util.List;
 @Dao
 public interface MessageDao {
     @Query("select * from Message")
-    List<Message> getAll();
+    LiveData<List<Message>> getAll();
 
 
     @Query("select * from Message where id = :messageID")

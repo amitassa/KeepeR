@@ -40,7 +40,7 @@ public class MessagesFragment extends Fragment {
         binding.messagesRecyclerView.setHasFixedSize(true);
         binding.messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         // Create the adapter with a delete message listener
-        adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messagesViewModel.getData(), ()->{reloadData();}, (MainActivity) getActivity());
+        adapter = new MessagesRecyclerAdapter(getLayoutInflater(), messagesViewModel.getData().getValue(), ()->{reloadData();}, (MainActivity) getActivity());
         binding.messagesRecyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(pos -> {
@@ -50,6 +50,10 @@ public class MessagesFragment extends Fragment {
         NavDirections action = MessagesFragmentDirections.actionGlobalAddMessageFragment();
         binding.getRoot().findViewById(R.id.messages_bar_add_btn).setOnClickListener(Navigation.createNavigateOnClickListener(action));
 
+        messagesViewModel.getData().observe(getViewLifecycleOwner(), list ->{
+            adapter.setData(list);
+            binding.messagesProgressBar.setVisibility(View.GONE);
+        });
         return root;
     }
 
@@ -67,19 +71,22 @@ public class MessagesFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        reloadData();
+        //reloadData();
     }
 
     public void reloadData(){
+        if(((MainActivity)getActivity()).getCurrentUser() == null) {
+            Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalLoginFragment());
+            return;
+        }
         binding.messagesProgressBar.setVisibility(View.VISIBLE);
-        MessagesModel.instance().getAllMessages((list)->{
-            messagesViewModel.setData(list);
-            adapter.setData(messagesViewModel.getData());
-            binding.messagesProgressBar.setVisibility(View.GONE);
-            if(((MainActivity)getActivity()).getCurrentUser() == null){
-                Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalLoginFragment());
+        MessagesModel.instance().refreshAllMessages();
+//        MessagesModel.instance().getAllMessages((list)->{
+//            messagesViewModel.setData(list);
+//            adapter.setData(messagesViewModel.getData());
+//            binding.messagesProgressBar.setVisibility(View.GONE);
+//
                 //Navigation.findNavController(binding.getRoot()).popBackStack();
-            }
-        });
+
     }
 }

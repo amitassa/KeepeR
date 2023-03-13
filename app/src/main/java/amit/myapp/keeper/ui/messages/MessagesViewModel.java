@@ -12,17 +12,14 @@ import amit.myapp.keeper.Model.Messages.MessagesModel;
 
 public class MessagesViewModel extends ViewModel {
 
-    private List<Message> data = new LinkedList<Message>();
+    private LiveData<List<Message>> data = MessagesModel.instance().getAllMessages();
 
     public MessagesViewModel() {
         //MessagesModel.instance().getAllMessages((list) -> {this.data = list;});
     }
 
-    public List<Message> getData(){
+    public LiveData<List<Message>> getData(){
         return data;
     }
 
-    public void setData(List<Message> list){
-        this.data = list;
-    }
 }

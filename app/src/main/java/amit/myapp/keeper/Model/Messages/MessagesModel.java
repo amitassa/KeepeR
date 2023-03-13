@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
+import androidx.lifecycle.LiveData;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -33,15 +34,16 @@ public class MessagesModel {
         void onComplete(List<Message> data);
     }
 
-    public void getAllMessages(GetAllMessagesListener callback) {
-//      for local db only
-        //        executor.execute(() -> {
-//            List<Message> allMessages = localDb.messageDao().getAll();
-//            mainHandler.post(() ->{
-//                callback.onComplete(allMessages);
-//            });
-//        });
+    LiveData<List<Message>> messageList;
 
+    public LiveData<List<Message>> getAllMessages(){
+        if (messageList == null){
+            messageList = localDb.messageDao().getAll();
+        }
+        return messageList;
+    }
+
+    public void refreshAllMessages() {
 
         //get local last update
         Long localLatestDate = Message.getLocalLatestDate();
@@ -57,11 +59,6 @@ public class MessagesModel {
                     }
                 }
                 Message.setLocalLatestDate(time);
-
-                List<Message> completeList = localDb.messageDao().getAll();
-                mainHandler.post(() -> {
-                    callback.onComplete(completeList);
-                });
             });
 
         });
@@ -82,7 +79,10 @@ public class MessagesModel {
 
     public void addMessage(Message message, AddMessageListener listener){
 
-        firebaseModel.addMessage(message, listener);
+        firebaseModel.addMessage(message, () ->{
+            listener.onComplete();
+            refreshAllMessages();
+        });
 //        executor.execute(() ->{
 //            Message newMessage = Message.fromJson(message.toJson());
 //            localDb.messageDao().insertAll(newMessage);
