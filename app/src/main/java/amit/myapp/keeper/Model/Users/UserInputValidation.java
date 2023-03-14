@@ -1,6 +1,5 @@
 package amit.myapp.keeper.Model.Users;
 
-import static java.lang.Float.parseFloat;
 
 import android.text.TextUtils;
 

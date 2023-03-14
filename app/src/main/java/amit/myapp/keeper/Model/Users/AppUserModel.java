@@ -1,6 +1,5 @@
 package amit.myapp.keeper.Model.Users;
 
-import android.util.Log;
 
 import amit.myapp.keeper.Model.FirebaseModel;
 

@@ -4,21 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
-import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import amit.myapp.keeper.MainActivity;
 import amit.myapp.keeper.Model.Users.AppUser;
@@ -26,8 +20,6 @@ import amit.myapp.keeper.Model.Users.AppUserModel;
 import amit.myapp.keeper.Model.Users.UserInputValidation;
 import amit.myapp.keeper.R;
 import amit.myapp.keeper.databinding.FragmentLoginBinding;
-import amit.myapp.keeper.databinding.FragmentMessagesBinding;
-import amit.myapp.keeper.ui.messages.MessagesFragment;
 
 
 public class LoginFragment extends Fragment {

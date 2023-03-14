@@ -1,17 +1,12 @@
 package amit.myapp.keeper.ui.user;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -75,7 +70,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         root = binding.getRoot();
         setData();
@@ -107,10 +101,7 @@ public class ProfileFragment extends Fragment {
         }
         else {
             binding.profilePictureImg.setImageResource(R.drawable.user);
-
         }
-        // else, if user profile pic is null:
-        //Bitmap user = BitmapFactory.decodeResource(getResources(), R.drawable.user);
     }
 
     private void setEditMode(){
@@ -137,8 +128,6 @@ public class ProfileFragment extends Fragment {
                 }
                 appUserModel.updateUser(user, () -> {
                     navigateAfterUpdate();
-//            NavDirections action = ProfileFragmentDirections.actionGlobalProfileFragment();
-//            Navigation.findNavController(binding.getRoot()).navigate(action);
                 });
             });
             }
