@@ -27,7 +27,7 @@ import amit.myapp.keeper.databinding.FragmentAddIncidentBinding;
 public class AddIncidentFragment extends Fragment {
     private FragmentAddIncidentBinding binding;
     private AppUser currentUser;
-    private Boolean isImageSelected;
+    private Boolean isImageSelected = false;
     private ActivityResultLauncher<Void> cameraLauncher;
 
     private ActivityResultLauncher<String> galleryLauncher;

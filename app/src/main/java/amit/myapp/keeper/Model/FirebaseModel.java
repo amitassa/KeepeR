@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -28,7 +27,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +36,6 @@ import amit.myapp.keeper.Model.Incidents.Incident;
 import amit.myapp.keeper.Model.Incidents.IncidentsModel;
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
-import amit.myapp.keeper.Model.Roles.Role;
 import amit.myapp.keeper.Model.Users.AppUser;
 import amit.myapp.keeper.Model.Users.AppUserModel;
 
@@ -48,7 +45,6 @@ public class FirebaseModel {
     FirebaseAuth mAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference appUserDatabaseReference;
-
     FirebaseStorage storage;
     StorageReference storageRef;
 
@@ -67,71 +63,49 @@ public class FirebaseModel {
     }
 
     public void getAllMessages(MessagesModel.GetAllMessagesListener callback) {
-        db.collection(Message.COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<Message> messageList = new LinkedList<>();
-                if (task.isSuccessful()) {
-                    QuerySnapshot jsonsList = task.getResult();
-                    for (DocumentSnapshot json : jsonsList) {
-                        //String id = json.getId();
-                        Message message = Message.fromJson(json.getData());//, id);
-                        messageList.add(message);
-                    }
+        db.collection(Message.COLLECTION).get().addOnCompleteListener(task -> {
+            List<Message> messageList = new LinkedList<>();
+            if (task.isSuccessful()) {
+                QuerySnapshot jsonsList = task.getResult();
+                for (DocumentSnapshot json : jsonsList) {
+                    //String id = json.getId();
+                    Message message = Message.fromJson(json.getData());
+                    messageList.add(message);
                 }
-                callback.onComplete(messageList);
             }
+            callback.onComplete(messageList);
         });
     }
     public void getAllMessagesSince(Long Since, MessagesModel.GetAllMessagesListener callback) {
         db.collection(Message.COLLECTION)
                 .whereGreaterThanOrEqualTo(Message.DATE, new Timestamp(Since, 0))
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<Message> messageList = new LinkedList<>();
-                if (task.isSuccessful()) {
-                    QuerySnapshot jsonsList = task.getResult();
-                    for (DocumentSnapshot json : jsonsList) {
-                        //String id = json.getId();
-                        Message message = Message.fromJson(json.getData());//, id);
-                        messageList.add(message);
+                .addOnCompleteListener(task -> {
+                    List<Message> messageList = new LinkedList<>();
+                    if (task.isSuccessful()) {
+                        QuerySnapshot jsonsList = task.getResult();
+                        for (DocumentSnapshot json : jsonsList) {
+                            Message message = Message.fromJson(json.getData());
+                            messageList.add(message);
+                        }
                     }
-                }
-                callback.onComplete(messageList);
-            }
-        });
+                    callback.onComplete(messageList);
+                });
     }
 
     public void addMessage(Message message, MessagesModel.AddMessageListener listener) {
         db.collection(Message.COLLECTION).document(message.getId()).set(message.toJson()).
-                addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        listener.onComplete();
-                    }
-                });
+                addOnCompleteListener(task -> listener.onComplete());
     }
 
     public void deleteMessage(Message message, MessagesModel.DeleteMessageListener listener) {
         db.collection(Message.COLLECTION).document(message.getId()).delete().
-                addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        listener.onComplete();
-                    }
-                });
+                addOnCompleteListener(task -> listener.onComplete());
     }
 
     public void editMessage(Message message, MessagesModel.EditMessageListener listener) {
         db.collection(Message.COLLECTION).document(message.getId()).set(message.toJson())
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        listener.onComplete();
-                    }
-                });
+                .addOnCompleteListener(task -> listener.onComplete());
     }
 
     public void getAllIncidentsSince(Long Since, IncidentsModel.IncidentListener<List<Incident>> callback) {
@@ -143,8 +117,7 @@ public class FirebaseModel {
                     if (task.isSuccessful()) {
                         QuerySnapshot jsonsList = task.getResult();
                         for (DocumentSnapshot json : jsonsList) {
-                            //String id = json.getId();
-                            Incident incident = Incident.fromJson(json.getData());//, id);
+                            Incident incident = Incident.fromJson(json.getData());
                             incidentList.add(incident);
                         }
                     }
@@ -161,10 +134,8 @@ public class FirebaseModel {
                     List<Incident> incidentList = new LinkedList<>();
                     if (task.isSuccessful()) {
                         QuerySnapshot jsonsList = task.getResult();
-                        Log.d("size", "getAllIncidentsForUserSince: " + jsonsList.size());
                         for (DocumentSnapshot json : jsonsList) {
-                            //String id = json.getId();
-                            Incident incident = Incident.fromJson(json.getData());//, id);
+                            Incident incident = Incident.fromJson(json.getData());
                             incidentList.add(incident);
                         }
                     }
@@ -187,44 +158,24 @@ public class FirebaseModel {
                 .addOnCompleteListener(task -> listener.onComplete(null));
     }
 
-
-
-
-        public void registerUser(String email, String password, String fullName, String ID, int role, AppUserModel.RegisterUserListener listener) {
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    AppUser user = new AppUser(fullName, ID, email, role, null);
-                    appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).setValue(user).
-                            addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    listener.onComplete();
-                                }
-                            });
-                }
-                ;
+    public void registerUser(String email, String password, String fullName, String ID, int role, AppUserModel.RegisterUserListener listener) {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                AppUser user = new AppUser(fullName, ID, email, role, null);
+                appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).setValue(user).
+                        addOnCompleteListener(task1 -> listener.onComplete());
             }
         });
     }
 
 
     public void loginUser(String email, String password, AppUserModel.LoginUserListener listener) {
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            listener.onComplete();
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        listener.onFailure();
-                    }
-                });
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                listener.onComplete();
+            }
+        })
+                .addOnFailureListener(e -> listener.onFailure());
     }
 
     public void getCurrentUser(AppUserModel.getCurrentUserListener listener) {
@@ -240,10 +191,8 @@ public class FirebaseModel {
                 AppUser user = snapshot.getValue(AppUser.class);
                 listener.onComplete(user);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("getCurrentUser", "Failed to read data");
                 listener.onFailure();
             }
         });
@@ -256,17 +205,9 @@ public class FirebaseModel {
 
     public void updateUser(AppUser user, AppUserModel.BasicListener listener){
         Map<String,Object> userJson = user.toJson();
-        appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).updateChildren(userJson).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                listener.onComplete();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("update", "onFailure: " + e.toString());
-            }
-        });
+        appUserDatabaseReference.child(mAuth.getCurrentUser().getUid()).updateChildren(userJson)
+                .addOnSuccessListener(unused -> listener.onComplete())
+                .addOnFailureListener(e -> {});
     }
 
     public void uploadUserProfileImage(String name, Bitmap imageBitmap, ImagesModel.Listener<String> listener){
@@ -276,23 +217,10 @@ public class FirebaseModel {
         byte[] data = baos.toByteArray();
 
         UploadTask uploadTask = userProfileImagesRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                listener.onComplete(null);
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                userProfileImagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        listener.onComplete(uri.toString());
-                    }
-                });
-            }
-        });
-
+        uploadTask.addOnFailureListener(exception -> listener.onComplete(null))
+                .addOnSuccessListener(taskSnapshot ->
+                        userProfileImagesRef.getDownloadUrl()
+                                .addOnSuccessListener(uri -> listener.onComplete(uri.toString())));
     }
 
 
@@ -303,21 +231,10 @@ public class FirebaseModel {
         byte[] data = baos.toByteArray();
 
         UploadTask uploadTask = incidentsImagesRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                listener.onComplete(null);
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                incidentsImagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        listener.onComplete(uri.toString());
-                    }
-                });
-            }
-        });
+        uploadTask.addOnFailureListener(exception ->
+                listener.onComplete(null))
+                .addOnSuccessListener(taskSnapshot ->
+                        incidentsImagesRef.getDownloadUrl()
+                                .addOnSuccessListener(uri -> listener.onComplete(uri.toString())));
     }
 }
