@@ -46,6 +46,8 @@ public class IncidentsFragment extends Fragment {
         binding.incidentsTemplateInclude.incidentsRecyclerView.setHasFixedSize(true);
         binding.incidentsTemplateInclude.incidentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));;
 
+        incidentsViewModel.setCurrentUserId(((MainActivity)getActivity()).getCurrentUser().getId());
+
         List<Incident> data = (isSelfIncidentMode() ? incidentsViewModel.getCurrentUserData().getValue() : incidentsViewModel.getData().getValue());
 
         adapter = new IncidentsRecyclerAdapter(getLayoutInflater(), data,
@@ -76,17 +78,16 @@ public class IncidentsFragment extends Fragment {
                 }
         );
         if (isSelfIncidentMode()){
-
+            incidentsViewModel.getCurrentUserData().observe(getViewLifecycleOwner(), list ->{
+                adapter.setData(list);
+            });
         }
         else {
-
+            incidentsViewModel.getData().observe(getViewLifecycleOwner(), list ->{
+                adapter.setData(list);
+            });
         }
-        incidentsViewModel.getData().observe(getViewLifecycleOwner(), list ->{
-            adapter.setData(list);
-        });
-        incidentsViewModel.getCurrentUserData().observe(getViewLifecycleOwner(), list ->{
-            adapter.setData(list);
-        });
+
 
 //        final TextView textView = binding.textHome;
 //        incidentsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);

@@ -40,13 +40,13 @@ public class SelfIncidentsFragment extends IncidentsFragment {
 //        };
 //        AppUserModel.instance().getCurrentUser(listener);
         this.currentUser = ((MainActivity)getActivity()).getCurrentUser();
-        super.target = DataFetchTarget.SELF;
+        this.target = DataFetchTarget.SELF;
         if (currentUser != null){
-            super.targetId = currentUser.getId();
+            this.targetId = currentUser.getId();
             Log.d("selfincident", "onCreateView: " + currentUser.getId());
         }
         else {
-            super.targetId = "x";
+            this.targetId = "x";
         }
 
         // Inflate the layout for this fragment

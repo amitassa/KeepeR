@@ -59,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
         navView = binding.bottomNavBar;
         NavigationUI.setupWithNavController(navView, navController);
         navView.setSelectedItemId(R.id.messagesFragment);
-        navView.setOnItemSelectedListener(item -> NavigationUI.onNavDestinationSelected(item, navController));
+        navView.setOnItemSelectedListener(item -> {
+            navController.popBackStack();
+            return NavigationUI.onNavDestinationSelected(item, navController);
+        });
 
     }
 
@@ -94,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.top_app_bar_profile:
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("user", this.currentUser);
+                    navController.popBackStack();
                     navController.navigate(R.id.profileFragment, bundle);
                     return true;
             }

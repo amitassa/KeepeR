@@ -59,10 +59,12 @@ public class IncidentsModel {
     }
 
     public LiveData<List<Incident>> getAllUserIncidents(String id){
-        if (currentUserIncidentsList == null){
-
-            currentUserIncidentsList = localDb.incidentDao().getIncidentsForUser(id);
-        }
+//        if (currentUserIncidentsList == null){
+//
+//            currentUserIncidentsList = localDb.incidentDao().getIncidentsForUser(id);
+//        }
+//        return currentUserIncidentsList;
+        currentUserIncidentsList = localDb.incidentDao().getIncidentsForUser(id);
         return currentUserIncidentsList;
     }
 
