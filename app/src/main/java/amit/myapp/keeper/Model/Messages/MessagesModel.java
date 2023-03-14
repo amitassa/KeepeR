@@ -58,7 +58,6 @@ public class MessagesModel {
         Long localLatestDate = Message.getLocalLatestDate();
         firebaseModel.getAllMessagesSince(localLatestDate, list ->{
             executor.execute(() ->{
-                Log.d("firebasereturn", "size" + list.size());
                 Long time = localLatestDate;
                 // insert new records into room
                 for(Message message:list){
@@ -72,13 +71,6 @@ public class MessagesModel {
             });
 
         });
-        // get all updated record from firebase since local last update
-
-
-        // update local last update
-
-        // return complete list from room
-        //firebaseModel.getAllMessages(callback);
     }
 
 
@@ -93,13 +85,6 @@ public class MessagesModel {
             listener.onComplete();
             refreshAllMessages();
         });
-//        executor.execute(() ->{
-//            Message newMessage = Message.fromJson(message.toJson());
-//            localDb.messageDao().insertAll(newMessage);
-//            mainHandler.post(() -> {
-//                listener.onComplete();
-//            });
-//        });
     }
 
     public interface DeleteMessageListener{

@@ -28,7 +28,6 @@ public class MessagesFragment extends Fragment {
 
     private FragmentMessagesBinding binding;
     private MessagesRecyclerAdapter adapter;
-    //private List<Message> messageList = new LinkedList<>();
     private MessagesViewModel messagesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -87,14 +86,6 @@ public class MessagesFragment extends Fragment {
             Navigation.findNavController(binding.getRoot()).navigate(MessagesFragmentDirections.actionGlobalLoginFragment());
             return;
         }
-        //binding.messagesProgressBar.setVisibility(View.VISIBLE);
         MessagesModel.instance().refreshAllMessages();
-//        MessagesModel.instance().getAllMessages((list)->{
-//            messagesViewModel.setData(list);
-//            adapter.setData(messagesViewModel.getData());
-//            binding.messagesProgressBar.setVisibility(View.GONE);
-//
-                //Navigation.findNavController(binding.getRoot()).popBackStack();
-
     }
 }

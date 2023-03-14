@@ -12,10 +12,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import amit.myapp.keeper.Model.Users.AppUser;
@@ -36,8 +33,6 @@ public class Message implements Serializable {
     private Long date;
 
 
-    //ToDo: maybe this screw the local DB
-    //public Message() {}
     public static final String COLLECTION = "messages";
     static final String TITLE = "title";
     static final String CONTENT = "content";
@@ -57,8 +52,6 @@ public class Message implements Serializable {
     @Ignore
     public Message(String content, String title, String publisherName, String publisherId, String id){
         this.content = content; this.title = title; this.publisherName = publisherName; this.publisherId = publisherId;
-        //this.date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
-        //this.date = FieldValue.serverTimestamp();
         this.id = id;
     }
 
@@ -67,12 +60,11 @@ public class Message implements Serializable {
         this.date = date; this.id = id;
     }
 
-    public static Message fromJson(Map<String,Object> json){//, String id){
+    public static Message fromJson(Map<String,Object> json){
         String content = (String)json.get(CONTENT);
         String title = (String)json.get(TITLE);
         String publisherId = (String) json.get(PUBLISHER_ID);
         String publisherName = (String) json.get(PUBLISHER_NAME);
-        //String date = (String) json.get(DATE);
         String id = (String) json.get(MESSAGE_ID);
         // Timestamp is firebase module. Change if firebase changed as DB!
         Timestamp time = (Timestamp) json.get(DATE);
@@ -88,7 +80,6 @@ public class Message implements Serializable {
         json.put(TITLE, getTitle());
         json.put(PUBLISHER_ID, getPublisherId());
         json.put(PUBLISHER_NAME, getPublisherName());
-        //json.put(DATE, getDate());
         // Change if firebase changed as DB!
         json.put(DATE, FieldValue.serverTimestamp());
         json.put(MESSAGE_ID, getId());

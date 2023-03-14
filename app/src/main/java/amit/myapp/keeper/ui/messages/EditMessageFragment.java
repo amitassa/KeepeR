@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import amit.myapp.keeper.Model.Messages.Message;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
 import amit.myapp.keeper.R;
-import amit.myapp.keeper.databinding.FragmentAddMessageBinding;
 import amit.myapp.keeper.databinding.FragmentEditMessageBinding;
 
 
@@ -53,9 +52,6 @@ public class EditMessageFragment extends Fragment {
             updateMessage(view1);
         });
 
-
-
-        // Cancel button returns to messages fragment
         binding.editMessageFragmentCancelBtn.setOnClickListener(view1->{
             Navigation.findNavController(view1).popBackStack(R.id.messagesFragment, false);
             root.findViewById(R.id.messages_bar_add_btn).setVisibility(View.VISIBLE);

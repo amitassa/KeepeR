@@ -35,8 +35,7 @@ import amit.myapp.keeper.R;
 
 class MessageViewHolder extends RecyclerView.ViewHolder{
     TextView titleTv; TextView contentTv; TextView dateTv; TextView publisherTv; ImageButton deleteBtn; ImageButton editBtn;
-    List<Message> messageList; MessagesModel.DeleteMessageListener deleteMessageListener; MessagesModel.EditMessageListener editMessageListener;
-    MainActivity mainActivity;
+    List<Message> messageList; MessagesModel.DeleteMessageListener deleteMessageListener;
 
 
 

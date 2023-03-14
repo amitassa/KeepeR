@@ -15,7 +15,6 @@ public class MessagesViewModel extends ViewModel {
     private LiveData<List<Message>> data = MessagesModel.instance().getAllMessages();
 
     public MessagesViewModel() {
-        //MessagesModel.instance().getAllMessages((list) -> {this.data = list;});
     }
 
     public LiveData<List<Message>> getData(){
