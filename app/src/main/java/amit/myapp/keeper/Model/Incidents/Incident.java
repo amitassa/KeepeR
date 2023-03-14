@@ -65,7 +65,7 @@ public class Incident implements Serializable {
     static final String TITLE = "title";
     static final String CONTENT = "content";
     static final String PUBLISHER_NAME = "publisherName";
-    static final String PUBLISHER_ID = "publisherId";
+    public static final String PUBLISHER_ID = "publisherId";
     static final String INCIDENT_ID = "id";
     static final String PHOTO_URL = "photourl";
     public static final String DATE = "date";

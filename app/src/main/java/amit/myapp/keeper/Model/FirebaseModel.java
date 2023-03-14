@@ -152,6 +152,25 @@ public class FirebaseModel {
                 });
     }
 
+    public void getAllIncidentsForUserSince(String id, Long Since, IncidentsModel.IncidentListener<List<Incident>> callback) {
+        db.collection(Incident.COLLECTION)
+                .whereEqualTo(Incident.PUBLISHER_ID, id)
+                .whereGreaterThanOrEqualTo(Message.DATE, new Timestamp(Since, 0))
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<Incident> incidentList = new LinkedList<>();
+                    if (task.isSuccessful()) {
+                        QuerySnapshot jsonsList = task.getResult();
+                        for (DocumentSnapshot json : jsonsList) {
+                            //String id = json.getId();
+                            Incident incident = Incident.fromJson(json.getData());//, id);
+                            incidentList.add(incident);
+                        }
+                    }
+                    callback.onComplete(incidentList);
+                });
+    }
+
     public void addIncident(Incident incident, IncidentsModel.IncidentListener<Void> listener) {
         db.collection(Incident.COLLECTION).document(incident.getId()).set(incident.toJson())
                 .addOnCompleteListener(task -> listener.onComplete(null));

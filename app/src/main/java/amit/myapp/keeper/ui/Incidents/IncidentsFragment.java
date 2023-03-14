@@ -2,6 +2,7 @@ package amit.myapp.keeper.ui.Incidents;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,14 @@ public class IncidentsFragment extends Fragment {
     private IncidentsRecyclerAdapter adapter;
     private IncidentsViewModel incidentsViewModel;
 
+    public enum DataFetchTarget{
+        ALL,
+        SELF
+    }
+
+    public DataFetchTarget target = DataFetchTarget.ALL;
+    public String targetId = "";
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -33,7 +42,7 @@ public class IncidentsFragment extends Fragment {
         binding.incidentsTemplateInclude.incidentsRecyclerView.setHasFixedSize(true);
         binding.incidentsTemplateInclude.incidentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));;
         adapter = new IncidentsRecyclerAdapter(getLayoutInflater(), incidentsViewModel.getData().getValue(),
-                (T)-> {reloadData();}, (MainActivity) getActivity());
+                (T)-> {reloadData(this.target, targetId);}, (MainActivity) getActivity());
 
         binding.incidentsTemplateInclude.incidentsRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(pos ->{
@@ -49,7 +58,7 @@ public class IncidentsFragment extends Fragment {
         );
 
         binding.incidentsTemplateInclude.incidentsSwipeRefresh.setOnRefreshListener(
-                ()->{reloadData();}
+                ()->{reloadData(this.target, targetId);}
         );
 
         IncidentsModel.instance().EventIncidentsListLoadingState.observe(
@@ -82,12 +91,17 @@ public class IncidentsFragment extends Fragment {
                 new ViewModelProvider(this).get(IncidentsViewModel.class);
     }
 
-    private void reloadData(){
+    private void reloadData(DataFetchTarget fetchTarget ,String id){
         if(((MainActivity)getActivity()).getCurrentUser() == null) {
             Navigation.findNavController(binding.getRoot())
                     .navigate(IncidentsFragmentDirections.actionGlobalLoginFragment());
             return;
         }
+        if (fetchTarget == DataFetchTarget.ALL) {
             IncidentsModel.instance().refreshAllIncidents();
+        }
+        else{
+            IncidentsModel.instance().refreshAllIncidentsForUser(id);
+        }
     }
 }

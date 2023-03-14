@@ -77,6 +77,27 @@ public class IncidentsModel {
         });
     }
 
+    public void refreshAllIncidentsForUser(String id){
+        EventIncidentsListLoadingState.setValue(LoadingState.LOADING);
+        Long localLatestDate = Incident.getLocalLatestDate();
+
+        firebaseModel.getAllIncidentsForUserSince(id, localLatestDate, list->{
+            executor.execute(()->{
+                Log.d("firebasereturn", "size" + list.size());
+                Long time = localLatestDate;
+                for(Incident incident:list){
+                    localDb.incidentDao().insertAll(incident);
+//                    if(time < incident.getDate()){
+//                        time = incident.getDate();
+//                    }
+                }
+//                Incident.setLocalLatestDate(time);
+                EventIncidentsListLoadingState.postValue(LoadingState.NOT_LOADING);
+            });
+
+        });
+    }
+
     public void addIncident(Incident incident, IncidentListener<Void> listener){
         firebaseModel.addIncident(incident, (data)->{
             listener.onComplete(null);
