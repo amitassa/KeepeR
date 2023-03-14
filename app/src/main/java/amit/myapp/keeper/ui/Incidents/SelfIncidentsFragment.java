@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +40,13 @@ public class SelfIncidentsFragment extends IncidentsFragment {
 //        };
 //        AppUserModel.instance().getCurrentUser(listener);
         this.currentUser = ((MainActivity)getActivity()).getCurrentUser();
-        target = DataFetchTarget.SELF;
+        super.target = DataFetchTarget.SELF;
         if (currentUser != null){
-            targetId = currentUser.getId();
+            super.targetId = currentUser.getId();
+            Log.d("selfincident", "onCreateView: " + currentUser.getId());
         }
         else {
-            targetId = "x";
+            super.targetId = "x";
         }
 
         // Inflate the layout for this fragment

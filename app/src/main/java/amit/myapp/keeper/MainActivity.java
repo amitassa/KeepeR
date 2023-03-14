@@ -112,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
     private void logOutUser(){
         AppUserModel.logOutUserListener listener = () -> {
             currentUser = null;
+            //ToDo: check for a better way
+            int count = getSupportFragmentManager().getBackStackEntryCount();
+            for (int i = 0; i < count; i++){
+                navController.popBackStack();
+            }
             navController.navigate(R.id.loginFragment);
             setHelloUser();
         };

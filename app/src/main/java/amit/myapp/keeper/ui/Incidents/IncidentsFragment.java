@@ -3,6 +3,7 @@ package amit.myapp.keeper.ui.Incidents;
 import android.content.Context;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,10 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.List;
+
 import amit.myapp.keeper.MainActivity;
+import amit.myapp.keeper.Model.Incidents.Incident;
 import amit.myapp.keeper.Model.Incidents.IncidentsModel;
 import amit.myapp.keeper.databinding.FragmentIncidentsBinding;
 import amit.myapp.keeper.ui.messages.MessagesFragmentDirections;
@@ -41,7 +45,10 @@ public class IncidentsFragment extends Fragment {
 
         binding.incidentsTemplateInclude.incidentsRecyclerView.setHasFixedSize(true);
         binding.incidentsTemplateInclude.incidentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));;
-        adapter = new IncidentsRecyclerAdapter(getLayoutInflater(), incidentsViewModel.getData().getValue(),
+
+        List<Incident> data = (isSelfIncidentMode() ? incidentsViewModel.getCurrentUserData().getValue() : incidentsViewModel.getData().getValue());
+
+        adapter = new IncidentsRecyclerAdapter(getLayoutInflater(), data,
                 (T)-> {reloadData(this.target, targetId);}, (MainActivity) getActivity());
 
         binding.incidentsTemplateInclude.incidentsRecyclerView.setAdapter(adapter);
@@ -68,8 +75,16 @@ public class IncidentsFragment extends Fragment {
                     );
                 }
         );
+        if (isSelfIncidentMode()){
 
+        }
+        else {
+
+        }
         incidentsViewModel.getData().observe(getViewLifecycleOwner(), list ->{
+            adapter.setData(list);
+        });
+        incidentsViewModel.getCurrentUserData().observe(getViewLifecycleOwner(), list ->{
             adapter.setData(list);
         });
 
@@ -89,6 +104,8 @@ public class IncidentsFragment extends Fragment {
         super.onAttach(context);
         incidentsViewModel =
                 new ViewModelProvider(this).get(IncidentsViewModel.class);
+        incidentsViewModel.setCurrentUserId(((MainActivity)getActivity()).getCurrentUser().getId());
+
     }
 
     private void reloadData(DataFetchTarget fetchTarget ,String id){
@@ -101,7 +118,12 @@ public class IncidentsFragment extends Fragment {
             IncidentsModel.instance().refreshAllIncidents();
         }
         else{
+            Log.d("selfincident", "reload data: " + id);
+
             IncidentsModel.instance().refreshAllIncidentsForUser(id);
         }
+    }
+    private Boolean isSelfIncidentMode(){
+        return this.target != DataFetchTarget.ALL;
     }
 }

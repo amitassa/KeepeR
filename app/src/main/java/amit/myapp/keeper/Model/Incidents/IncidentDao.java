@@ -18,6 +18,9 @@ public interface IncidentDao {
     @Query("select * from Incident where id = :incidentID")
     Incident getIncidentById(String incidentID);
 
+    @Query("select * from Incident where publisherId = :publisherId")
+    LiveData<List<Incident>> getIncidentsForUser(String publisherId);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Incident... incidents);
 

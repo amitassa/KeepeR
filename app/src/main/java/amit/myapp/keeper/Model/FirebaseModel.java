@@ -161,6 +161,7 @@ public class FirebaseModel {
                     List<Incident> incidentList = new LinkedList<>();
                     if (task.isSuccessful()) {
                         QuerySnapshot jsonsList = task.getResult();
+                        Log.d("size", "getAllIncidentsForUserSince: " + jsonsList.size());
                         for (DocumentSnapshot json : jsonsList) {
                             //String id = json.getId();
                             Incident incident = Incident.fromJson(json.getData());//, id);

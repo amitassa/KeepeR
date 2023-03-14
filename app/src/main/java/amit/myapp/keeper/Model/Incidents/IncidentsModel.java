@@ -17,6 +17,7 @@ import amit.myapp.keeper.Model.AppLocalDb;
 import amit.myapp.keeper.Model.AppLocalRepository;
 import amit.myapp.keeper.Model.FirebaseModel;
 import amit.myapp.keeper.Model.Messages.MessagesModel;
+import amit.myapp.keeper.Model.Users.AppUserModel;
 
 
 public class IncidentsModel {
@@ -29,6 +30,8 @@ public class IncidentsModel {
     private Executor executor = Executors.newSingleThreadExecutor();
 
     private LiveData<List<Incident>> incidentsList;
+    private LiveData<List<Incident>> currentUserIncidentsList;
+
 
     public static IncidentsModel instance(){
         return _instance;
@@ -53,6 +56,14 @@ public class IncidentsModel {
             incidentsList = localDb.incidentDao().getAll();
         }
         return incidentsList;
+    }
+
+    public LiveData<List<Incident>> getAllUserIncidents(String id){
+        if (currentUserIncidentsList == null){
+
+            currentUserIncidentsList = localDb.incidentDao().getIncidentsForUser(id);
+        }
+        return currentUserIncidentsList;
     }
 
 
@@ -83,7 +94,7 @@ public class IncidentsModel {
 
         firebaseModel.getAllIncidentsForUserSince(id, localLatestDate, list->{
             executor.execute(()->{
-                Log.d("firebasereturn", "size" + list.size());
+                Log.d("firebasereturnforuser", "size" + list.size());
                 Long time = localLatestDate;
                 for(Incident incident:list){
                     localDb.incidentDao().insertAll(incident);
