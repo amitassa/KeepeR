@@ -2,10 +2,18 @@ package amit.myapp.keeper;
 
 
 import android.os.Bundle;
+import android.os.DeadObjectException;
+import android.widget.TextView;
 
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.JsonObject;
 
 
 import androidx.annotation.NonNull;
@@ -17,6 +25,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import amit.myapp.keeper.Model.Users.AppUser;
 import amit.myapp.keeper.Model.Users.AppUserModel;
@@ -103,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+        updateWeather();
     }
     public void setHelloUser(){
         if (currentUser != null){
@@ -126,6 +138,26 @@ public class MainActivity extends AppCompatActivity {
         };
         appUserModel.logOutUser(listener);
 
+    }
+
+    private void updateWeather(){
+        TextView weatherTv = binding.topAppBarWeatherTv;
+        String url = "https://api.openweathermap.org/data/2.5/weather?lat=32.085300&lon=34.781769&appid=a5bde77ec681834fe89bae88263750f6";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, response -> {
+            try {
+                JSONObject main = response.getJSONObject("main");
+                Double kelvinTemp = main.getDouble("temp");
+                int celciusTemp = (int) (kelvinTemp - 273.15);
+
+                weatherTv.setText(Integer.toString(celciusTemp) + " C");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                weatherTv.setText("Json error");
+            }
+        }, error -> weatherTv.setText("get error"));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjectRequest);
     }
 
 
