@@ -3,7 +3,6 @@ package amit.myapp.keeper;
 import android.os.Bundle;
 import android.widget.TextView;
 
-
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -26,14 +25,8 @@ import amit.myapp.keeper.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    BottomNavigationView navView;
-
-    MaterialToolbar topAppBar;
-
-    AppUserModel appUserModel;
-
-    AppUser currentUser;
-    NavController navController;
+    BottomNavigationView navView; MaterialToolbar topAppBar; AppUserModel appUserModel;
+    AppUser currentUser; NavController navController;
 
 
     @Override
