@@ -16,40 +16,24 @@ import amit.myapp.keeper.R;
 import amit.myapp.keeper.databinding.FragmentSelfIncidentsBinding;
 
 public class SelfIncidentsFragment extends IncidentsFragment {
-    private FragmentSelfIncidentsBinding binding;
     private AppUser currentUser;
 
     public SelfIncidentsFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        AppUserModel.getCurrentUserListener listener = new AppUserModel.getCurrentUserListener() {
-//            @Override
-//            public void onComplete(AppUser user) {
-//                currentUser = user;
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//
-//            }
-//        };
-//        AppUserModel.instance().getCurrentUser(listener);
         this.currentUser = ((MainActivity)getActivity()).getCurrentUser();
         this.target = DataFetchTarget.SELF;
         if (currentUser != null){
             this.targetId = currentUser.getId();
-            Log.d("selfincident", "onCreateView: " + currentUser.getId());
         }
         else {
             this.targetId = "x";
         }
 
-        // Inflate the layout for this fragment
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }

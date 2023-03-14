@@ -1,16 +1,13 @@
 package amit.myapp.keeper.ui.Incidents;
 
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
 import amit.myapp.keeper.Model.Incidents.Incident;
 import amit.myapp.keeper.Model.Incidents.IncidentsModel;
-import amit.myapp.keeper.MyApplication;
 
 public class IncidentsViewModel extends ViewModel {
 
@@ -33,6 +30,5 @@ public class IncidentsViewModel extends ViewModel {
     public void setCurrentUserId(String id){
         currentUserId = id;
         currentUserData  = IncidentsModel.instance().getAllUserIncidents(id);
-        Log.d("selfincident", "setCurrentUserId: " + id);
     }
 }

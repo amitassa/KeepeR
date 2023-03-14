@@ -23,12 +23,10 @@ import amit.myapp.keeper.Model.Users.AppUserModel;
 public class IncidentsModel {
 
     private static final IncidentsModel _instance = new IncidentsModel();
-
     private FirebaseModel firebaseModel = new FirebaseModel();
     AppLocalRepository localDb = AppLocalDb.getAppDb();
     private Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
     private Executor executor = Executors.newSingleThreadExecutor();
-
     private LiveData<List<Incident>> incidentsList;
     private LiveData<List<Incident>> currentUserIncidentsList;
 
@@ -59,11 +57,6 @@ public class IncidentsModel {
     }
 
     public LiveData<List<Incident>> getAllUserIncidents(String id){
-//        if (currentUserIncidentsList == null){
-//
-//            currentUserIncidentsList = localDb.incidentDao().getIncidentsForUser(id);
-//        }
-//        return currentUserIncidentsList;
         currentUserIncidentsList = localDb.incidentDao().getIncidentsForUser(id);
         return currentUserIncidentsList;
     }
@@ -75,7 +68,6 @@ public class IncidentsModel {
 
         firebaseModel.getAllIncidentsSince(localLatestDate, list->{
             executor.execute(()->{
-                Log.d("firebasereturn", "size" + list.size());
                 Long time = localLatestDate;
                 for(Incident incident:list){
                     localDb.incidentDao().insertAll(incident);
@@ -96,15 +88,10 @@ public class IncidentsModel {
 
         firebaseModel.getAllIncidentsForUserSince(id, localLatestDate, list->{
             executor.execute(()->{
-                Log.d("firebasereturnforuser", "size" + list.size());
                 Long time = localLatestDate;
                 for(Incident incident:list){
                     localDb.incidentDao().insertAll(incident);
-//                    if(time < incident.getDate()){
-//                        time = incident.getDate();
-//                    }
                 }
-//                Incident.setLocalLatestDate(time);
                 EventIncidentsListLoadingState.postValue(LoadingState.NOT_LOADING);
             });
 

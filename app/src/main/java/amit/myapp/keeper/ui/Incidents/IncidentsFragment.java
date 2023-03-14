@@ -88,9 +88,6 @@ public class IncidentsFragment extends Fragment {
             });
         }
 
-
-//        final TextView textView = binding.textHome;
-//        incidentsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
@@ -119,8 +116,6 @@ public class IncidentsFragment extends Fragment {
             IncidentsModel.instance().refreshAllIncidents();
         }
         else{
-            Log.d("selfincident", "reload data: " + id);
-
             IncidentsModel.instance().refreshAllIncidentsForUser(id);
         }
     }

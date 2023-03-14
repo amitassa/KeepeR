@@ -9,7 +9,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,6 @@ public class EditIncidentFragment extends Fragment {
     public EditIncidentFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -60,7 +58,6 @@ public class EditIncidentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentEditIncidentBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -83,7 +80,6 @@ public class EditIncidentFragment extends Fragment {
         binding.fragmentLayoutInclude.addIncidentFragmentIncidentContent
                 .setText(currentIncident.getContent());
         if(currentIncident.getPhotourl() != null && !currentIncident.getPhotourl().isEmpty()){
-            Log.d("setData", "setData: " + currentIncident.getPhotourl());
             //ToDo: change placeholder and fix fit
             Picasso.get().load(currentIncident.getPhotourl())
                     .placeholder(R.drawable.gallery_icon)

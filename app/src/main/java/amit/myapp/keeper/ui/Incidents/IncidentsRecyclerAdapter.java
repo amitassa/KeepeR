@@ -25,7 +25,6 @@ import amit.myapp.keeper.Model.Incidents.Incident;
 import amit.myapp.keeper.Model.Incidents.IncidentsModel;
 import amit.myapp.keeper.Model.Roles.PermissionManager;
 import amit.myapp.keeper.R;
-import amit.myapp.keeper.ui.messages.MessagesFragmentDirections;
 
 class IncidentViewHolder extends RecyclerView.ViewHolder {
 

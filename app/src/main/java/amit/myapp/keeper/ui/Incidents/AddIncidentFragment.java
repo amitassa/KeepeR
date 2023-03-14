@@ -9,11 +9,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.text.BoringLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.UUID;
 
@@ -95,13 +95,14 @@ public class AddIncidentFragment extends Fragment {
 
     private Boolean validateData(){
         if (!isImageSelected){
-            //ToDo: toast
+            Toast.makeText(getContext(), "Please upload an image of the incident", Toast.LENGTH_SHORT).show();
+
             return false;
         }
         String title = binding.addIncidentFragmentIncidentTitle.getText().toString();
         String content = binding.addIncidentFragmentIncidentContent.getText().toString();
         if (title.isEmpty() || content.isEmpty()){
-            //ToDo: toast
+            Toast.makeText(getContext(), "All fields must be filled", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
