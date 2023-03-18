@@ -8,12 +8,12 @@
         android:title="@string/title_Messages" />
     <item
         android:id="@+id/incidentsFragment"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/incident_icon"
         android:title="@string/title_incidents" />
 
     <item
         android:id="@+id/selfIncidentsFragment"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="תקלות שפתחתי" />
+        android:icon="@drawable/incident_icon"
+        android:title="My Incidents" />
 
 </menu>

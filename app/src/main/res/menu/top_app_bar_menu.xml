@@ -4,8 +4,8 @@
 
     <item
         android:id="@+id/top_app_bar_profile"
-        android:title="פרופיל" />
+        android:title="My Profile" />
     <item
         android:id="@+id/top_app_bar_logout"
-        android:title="התנתק" />
+        android:title="Sign Out" />
 </menu>
