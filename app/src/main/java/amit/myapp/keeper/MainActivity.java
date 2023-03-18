@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
         createBottomNavigation();
         createTopAppBar();
+
     }
 
     @Override
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         updateCurrentUser();
     }
+
 
     private void createBottomNavigation(){
         navView = binding.bottomNavBar;
@@ -69,16 +71,28 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(AppUser user) {
                 currentUser = user;
                 setHelloUser();
+                validateUserLogged();
             }
 
             @Override
             public void onFailure() {
                 currentUser = null;
                 setHelloUser();
+                validateUserLogged();
             }
         };
         appUserModel.getCurrentUser(listener);
     }
+
+    public void validateUserLogged() {
+    if (this.currentUser == null) {
+        navController.navigate(R.id.loginFragment);
+        }
+    else {
+        navController.navigate(R.id.messagesFragment);
+    }
+    }
+
 
     private void createTopAppBar(){
         topAppBar = binding.topAppBar;

@@ -78,7 +78,7 @@ public class MessagesFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        //reloadData();
+        reloadData();
     }
 
     public void reloadData(){
