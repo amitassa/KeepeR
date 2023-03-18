@@ -17,8 +17,10 @@
         app:circularflow_radiusInDP="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <TextView
             android:id="@+id/messagelistrow_title"
@@ -49,23 +51,23 @@
             android:id="@+id/messagelistrow_publisher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="Publisher Name"
             android:textColor="#2F8B9E"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/messagelistrow_date"
-            app:layout_constraintStart_toEndOf="@+id/messagelistrow_date" />
+            app:layout_constraintStart_toStartOf="@+id/messagelistrow_title"
+            app:layout_constraintTop_toBottomOf="@+id/messagelistrow_title" />
 
         <TextView
             android:id="@+id/messagelistrow_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
             android:text="Date"
             android:textColor="#2F8B9E"
             android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@+id/messagelistrow_title"
-            app:layout_constraintTop_toBottomOf="@+id/messagelistrow_title" />
+            app:layout_constraintBottom_toBottomOf="@+id/messagelistrow_publisher"
+            app:layout_constraintStart_toEndOf="@+id/messagelistrow_publisher" />
 
         <ImageButton
             android:id="@+id/messagelistrow_delete_btn"
