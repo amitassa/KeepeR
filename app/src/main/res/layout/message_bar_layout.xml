@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/messagebar_row"
 android:layout_width="match_parent"
 android:layout_height="70dp"
@@ -10,30 +11,30 @@ app:layout_constraintTop_toTopOf="parent">
         android:id="@+id/messages_bar_add_btn"
         android:layout_width="35dp"
         android:layout_height="32dp"
-        android:layout_marginStart="30dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/add_icon" />
 
-<ImageView
-    android:id="@+id/messages_bar_title_icon"
-    android:layout_width="30dp"
-    android:layout_height="30dp"
-    android:layout_marginEnd="20dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/messages_bar_add_btn"
-    app:srcCompat="@drawable/ic_baseline_email_24" />
+    <ImageView
+        android:id="@+id/messages_bar_title_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_email_24" />
 
-<TextView
-    android:id="@+id/messages_bar_title"
-    android:layout_width="65dp"
-    android:layout_height="0dp"
-    android:layout_marginEnd="20dp"
-    android:layout_marginBottom="-5dp"
-    android:text="@string/title_Messages"
-    android:textSize="20sp"
-    app:layout_constraintBottom_toBottomOf="@+id/messages_bar_title_icon"
-    app:layout_constraintEnd_toStartOf="@+id/messages_bar_title_icon"
-    app:layout_constraintTop_toTopOf="@+id/messages_bar_title_icon" />
+    <TextView
+        android:id="@+id/messages_bar_title"
+        android:layout_width="110dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/title_Messages"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/messages_bar_title_icon"
+        app:layout_constraintTop_toTopOf="@+id/messages_bar_title_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
