@@ -1,6 +1,7 @@
 package amit.myapp.keeper;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -85,12 +86,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void validateUserLogged() {
-    if (this.currentUser == null) {
-        navController.navigate(R.id.loginFragment);
+        if (this.currentUser == null) {
+            navController.navigate(R.id.loginFragment);
+            }
+        else {
+            navController.navigate(R.id.messagesFragment);
+            binding.bottomNavBar.setVisibility(View.VISIBLE);
         }
-    else {
-        navController.navigate(R.id.messagesFragment);
-    }
     }
 
 
