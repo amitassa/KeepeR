@@ -30,7 +30,7 @@
                 android:id="@+id/addIncidentFragment_add_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="הוסף תקלה" />
+                android:text="Add Incident" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -44,7 +44,7 @@
                     android:id="@+id/addIncidentFragment_Incident_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="כותרת" />
+                    android:hint="Title" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +59,7 @@
                     android:id="@+id/addIncidentFragment_Incident_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="פירוט התקלה"
+                    android:hint="Incident Details"
                     android:textAlignment="textStart"
                     app:textInputLayoutFocusedRectEnabled="false" />
 
@@ -89,14 +89,12 @@
                     style="@style/Widget.MaterialComponents.Button.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     android:backgroundTint="@color/appColor"
-                    android:text="פרסם"
+                    android:text="Publish"
                     app:cornerRadius="6dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/addIncidentFragment_cancel_btn"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/addIncidentFragment_cancel_btn"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
@@ -104,12 +102,12 @@
                     style="@style/Widget.MaterialComponents.Button.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="10dp"
                     android:backgroundTint="@color/appColor"
-                    android:text="ביטול"
+                    android:text="Cancel"
                     app:cornerRadius="6dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/addIncidentFragment_publish_btn"
-                    app:layout_constraintStart_toEndOf="@+id/addIncidentFragment_publish_btn"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
